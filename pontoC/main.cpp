@@ -106,9 +106,24 @@ int main(){
                 vendedor.cadastrarCliente(cliente); // cadastrar cliente
                 
             }else if(opcaoVendedor == 2){
+                // Na abertura da ordem deverá possuir o motivo da manutenção, além de outras informações como
+                //quilometragem do veículo. O sistema deverá estar apto a gerar todo o histórico de manutenções do
+                //veículo.
+
                 cout << "Gerar ordem de serviço" << endl;
+                string ordemDeServico;
+                ordemDeServico = vendedor.gerarOrdemDeServico();
+                
+
+
+
             }else if(opcaoVendedor == 3){
+
+
                 cout << "Visualizar ordens de serviço de orçamento pendentes de aprovação do cliente e marcar como aprovadas" << endl;
+                vendedor.visualizarOrdensDeServico();
+
+
             }else if(opcaoVendedor == 4){
                 cout << "Visualizar ordens de serviço executadas e realizar o fechamento" << endl;
             }else{

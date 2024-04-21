@@ -20,7 +20,7 @@ class Mecanicos : public Funcionarios {
     Mecanicos(string nome, string cpf, string ordemDeServico);
     string getOrdemDeServico();
     void setOrdemDeServico(string ordemDeServico);
-    void visualizarOrdensDeServico();
+    void visualizarOrdensDeServico() override;
     void cadastrarServicosExecutados();
     void cadastrarPecasUtilizadas();
     

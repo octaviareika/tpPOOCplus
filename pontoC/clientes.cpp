@@ -52,3 +52,11 @@ Veiculo Cliente::getVeiculo() {
     return veiculo;
 }
 
+bool Cliente::getAprovacao() {
+    return ordemDeServiçoAprovada;
+}
+
+void Cliente::setAprovacao(bool ordemDeServicoAprovacao) {
+    this->ordemDeServiçoAprovada = ordemDeServicoAprovacao;
+}
+

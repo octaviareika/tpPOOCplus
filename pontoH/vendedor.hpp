@@ -26,7 +26,7 @@ class Vendedor : public Funcionarios {
     Vendedor();
     string getOrdemDeServico();
     void setOrdemDeServico(string ordemDeServico);
-    void visualizarOrdensDeServico();
+    void visualizarOrdensDeServico() override;
     
     void cadastrarCliente(Cliente cliente);
     void cadastrarVeiculo(Cliente cliente); // cadastrar veiculo por meio de cliente cadastrado

@@ -13,6 +13,7 @@ class Cliente {
     string endereco;
     string telefone;
     Veiculo veiculo;
+    bool ordemDeServiçoAprovada;
 
 
     public:
@@ -21,12 +22,15 @@ class Cliente {
     string getCpf();
     string getEndereco();
     string getTelefone();
+    bool getAprovacao();
     void setNome(string nome);
     void setCpf(string cpf);
     void setEndereco(string endereco);
     void setTelefone(string telefone);
     void setVeiculo(Veiculo veiculo);
+    void setAprovacao(bool ordemDeServicoAprovacao);
     Veiculo getVeiculo();
+
     
 
 };
