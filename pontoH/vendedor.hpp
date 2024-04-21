@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "funcionarios.hpp"
+#include "cliente.hpp"
+#include <vector>
 
 // Caso o usuário logado seja um Vendedor deverão ser exibidas as seguintes opções:
 // • Cadastrar cliente e veículo.
@@ -16,6 +18,8 @@ using namespace std;
 class Vendedor : public Funcionarios {
     private:
     string ordemDeServico;
+    // cadastrar cliente
+    vector <Cliente> clientes;
 
     public:
     Vendedor(string nome, string cpf, string ordemDeServico);
@@ -23,9 +27,9 @@ class Vendedor : public Funcionarios {
     void setOrdemDeServico(string ordemDeServico);
     void visualizarOrdensDeServico();
     
-    void cadastrarCliente();
-    void cadastrarVeiculo();
-    void gerarOrdemDeServico();
+    void cadastrarCliente(Cliente cliente);
+    void cadastrarVeiculo(Cliente cliente); // cadastrar veiculo por meio de cliente cadastrado
+    string gerarOrdemDeServico();
     void marcarAprovadas();
     void fecharOrdemDeServico();
     

@@ -2,6 +2,7 @@
 #define CLIENTE_HPP
 
 #include <iostream>
+#include <vector>
 #include "veiculo.hpp";
 using namespace std;
 
@@ -12,6 +13,7 @@ class Cliente {
     string endereco;
     string telefone;
     Veiculo veiculo;
+    
 
     public:
     Cliente(string nome, string cpf, string endereco, string telefone);
