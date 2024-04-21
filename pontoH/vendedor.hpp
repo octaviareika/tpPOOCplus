@@ -23,6 +23,7 @@ class Vendedor : public Funcionarios {
 
     public:
     Vendedor(string nome, string cpf, string ordemDeServico);
+    Vendedor();
     string getOrdemDeServico();
     void setOrdemDeServico(string ordemDeServico);
     void visualizarOrdensDeServico();

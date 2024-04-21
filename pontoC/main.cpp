@@ -23,6 +23,9 @@ Caso o usuário logado seja um mecânico deverão ser exibidas as seguintes opç
 • Cadastrar serviços executados e peças utilizadas*/
 
 int main(){
+    Vendedor vendedor = Vendedor();
+
+
     cout << "Tela de login do sistema de oficina" << endl;
     cout << "1 - Login" << endl;
     cout << "2 - Sair do sistema" << endl;
@@ -64,7 +67,44 @@ int main(){
             cin >> opcaoVendedor;
 
             if(opcaoVendedor == 1){
+            
                 cout << "Cadastrar cliente e veículo" << endl;
+                cout << "Digite o nome do cliente: ";
+                string nome;
+                cin >> nome;
+                cout << "Digite o cpf do cliente: ";
+                string cpf;
+                cin >> cpf;
+                cout << "Digite o endereço do cliente: ";
+                string endereco;
+                cin >> endereco;
+                cout << "Digite o telefone do cliente: ";
+                string telefone;
+                cin >> telefone;
+                cout << "Digite a marca do veículo: ";
+                string marca;
+                cin >> marca;
+                cout << "Digite o modelo do veículo: ";
+                string modelo;
+                cin >> modelo;
+                cout << "Digite o ano do veículo: ";
+                int ano;
+                cin >> ano;
+                cout << "Digite a placa do veículo: ";
+                string placa;
+                cin >> placa;
+                cout << "Digite a cor do veículo: ";
+                string cor;
+                cin >> cor;
+                cout << "Digite o preço do veículo: ";
+                double preco;
+                cin >> preco;
+                cout << "Digite a quilometragem do veículo: ";
+                double quilometragem;
+                cin >> quilometragem;
+                Cliente cliente = Cliente(nome, cpf, endereco, telefone, Veiculo(marca, modelo, placa, cor, ano, preco, quilometragem));
+                vendedor.cadastrarCliente(cliente); // cadastrar cliente
+                
             }else if(opcaoVendedor == 2){
                 cout << "Gerar ordem de serviço" << endl;
             }else if(opcaoVendedor == 3){
