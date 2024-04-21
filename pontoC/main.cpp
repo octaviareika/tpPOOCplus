@@ -4,7 +4,7 @@
 #include "cliente.hpp"
 #include "vendedor.hpp"
 #include "mecanicos.hpp"
-
+#include <vector>
 // A tela inicial do sistema deve ter as seguintes opções:
 // • Login (Para administrador, vendedor ou mecânico).
 /*• Sair do sistema, não é necessário persistir as informações ao sair do sistema, ou seja, as
@@ -24,6 +24,8 @@ Caso o usuário logado seja um mecânico deverão ser exibidas as seguintes opç
 
 int main(){
     Vendedor vendedor = Vendedor();
+    Cliente cliente;
+    //vector <Cliente> clientes;
 
 
     cout << "Tela de login do sistema de oficina" << endl;
@@ -99,8 +101,12 @@ int main(){
                 cout << "Digite o preço do veículo: ";
                 double preco;
                 cin >> preco;
-                
-                Cliente cliente = Cliente(nome, cpf, endereco, telefone, Veiculo(marca, modelo, placa, cor, ano, preco));
+                cout << "Digite a ordem de serviço: ";
+                string ordemDeServico;
+                // caso ja exista esse cliente cadastrado 
+
+
+                cliente = Cliente(nome, cpf, endereco, telefone, Veiculo(marca, modelo, placa, cor, ano, preco), ordemDeServico);
                 vendedor.cadastrarCliente(cliente); // cadastrar cliente
                 
             }else if(opcaoVendedor == 2){
@@ -108,16 +114,22 @@ int main(){
                 //quilometragem do veículo. O sistema deverá estar apto a gerar todo o histórico de manutenções do
                 //veículo.
 
-                cout << "Gerar ordem de serviço" << endl;
-                string ordemDeServico;
-                ordemDeServico = vendedor.gerarOrdemDeServico();
-                
-
+                if (cliente.getOrdemDeServico() == "manuntencao"){
+                    cout << "Gerar ordem de serviço" << endl;
+                    cout << "Digite o motivo da manutenção: ";
+                    string motivo;
+                    cin >> motivo;
+                    cout << "Digite a quilometragem do veículo: ";
+                    int quilometragem;
+                    cin >> quilometragem;
+                    cout << "Ordem de serviço gerada com sucesso" << endl;
+                }
 
 
             }else if(opcaoVendedor == 3){
 
                 cout << "Visualizar ordens de serviço de orçamento pendentes de aprovação do cliente e marcar como aprovadas" << endl;
+                vendedor.visualizarOrdensDeServico();
                 
 
 

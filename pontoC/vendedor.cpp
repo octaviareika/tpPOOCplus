@@ -31,17 +31,19 @@ string Vendedor:: gerarOrdemDeServico() { // manutenção ou orçamento
 void Vendedor::visualizarOrdensDeServico(){
     cout << "Visualizando ordens de serviço..." << endl;
     for (int i = 0; i < clientes.size(); i++) {
-        cout << "Nome: " << clientes[i].getNome() << endl;
-        cout << "CPF: " << clientes[i].getCpf() << endl;
-        cout << "Endereço: " << clientes[i].getEndereco() << endl;
-        cout << "Telefone: " << clientes[i].getTelefone() << endl;
-        cout << "Veículo: " << clientes[i].getVeiculo().getMarca() << endl;
-        cout << "Modelo: " << clientes[i].getVeiculo().getModelo() << endl;
-        cout << "Placa: " << clientes[i].getVeiculo().getPlaca() << endl;
-        cout << "Ano: " << clientes[i].getVeiculo().getAno() << endl;
-        cout << "Cor: " << clientes[i].getVeiculo().getCor() << endl;
-        cout << "Ordem de serviço: " << ordemDeServico << endl;// ordem que o cliente quer
-        cout << "Ordem de serviço aprovadas: " << clientes[i].getAprovacao() << endl;
+        if (clientes[i].getAprovacao() == false){// se tiver pendente de aprovacao
+            cout << "Nome: " << clientes[i].getNome() << endl;
+            cout << "CPF: " << clientes[i].getCpf() << endl;
+            cout << "Endereço: " << clientes[i].getEndereco() << endl;
+            cout << "Telefone: " << clientes[i].getTelefone() << endl;
+            cout << "Veículo: " << clientes[i].getVeiculo().getMarca() << endl;
+            cout << "Modelo: " << clientes[i].getVeiculo().getModelo() << endl;
+            cout << "Placa: " << clientes[i].getVeiculo().getPlaca() << endl;
+            cout << "Ano: " << clientes[i].getVeiculo().getAno() << endl;
+            cout << "Cor: " << clientes[i].getVeiculo().getCor() << endl;
+            cout << "Ordem de serviço: " << ordemDeServico << endl;// ordem que o cliente quer
+            cout << "Aprovado?: " << clientes[i].getAprovacao() << endl;
+        }
     }
 }
 void Vendedor::cadastrarCliente(Cliente cliente) {
@@ -50,24 +52,3 @@ void Vendedor::cadastrarCliente(Cliente cliente) {
 
 }
 
-void Vendedor::cadastrarVeiculo(Cliente cliente) {
-    cout << "Cadastrando veículo..." << endl;
-    cout << "Digite a marca do veiculo: ";
-    string marca;
-    cin >> marca;
-    cout << "Digite o modelo do veículo: ";
-    string modelo;
-    cin >> modelo;
-    cout << "Digite o ano do veículo: ";
-    int ano;
-    cin >> ano;
-    cout << "Digite a placa do veículo: ";
-    string placa;
-    cin >> placa;
-    cout << "Digite a cor do veículo: ";
-    string cor;
-    cin >> cor;
-    cout << "Digite o preço do veículo: ";
-    double preco;
-    cin >> preco;
-}

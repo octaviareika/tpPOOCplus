@@ -13,11 +13,13 @@ class Cliente {
     string endereco;
     string telefone;
     Veiculo veiculo;
+    string ordemDeServico;
     bool ordemDeServiçoAprovada;
 
 
     public:
-    Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo);
+    Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo, string ordemDeServico);
+    Cliente();
     string getNome();
     string getCpf();
     string getEndereco();
@@ -30,6 +32,8 @@ class Cliente {
     void setVeiculo(Veiculo veiculo);
     void setAprovacao(bool ordemDeServicoAprovacao);
     Veiculo getVeiculo();
+    string getOrdemDeServico();
+    void setOrdemDeServico(string ordemDeServico);
 
     
 

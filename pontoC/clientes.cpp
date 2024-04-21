@@ -4,12 +4,13 @@
 #include "veiculo.hpp"
 using namespace std;
 
-Cliente::Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo) {
+Cliente::Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo, string ordemDeServico) {
     this->nome = nome;
     this->cpf = cpf;
     this->endereco = endereco;
     this->telefone = telefone;
     this->veiculo = veiculo;
+    this->ordemDeServico = ordemDeServico;
 }
 
 string Cliente::getNome() {
@@ -60,3 +61,10 @@ void Cliente::setAprovacao(bool ordemDeServicoAprovacao) {
     this->ordemDeServiçoAprovada = ordemDeServicoAprovacao;
 }
 
+string Cliente::getOrdemDeServico() {
+    return ordemDeServico;
+}
+
+void Cliente::setOrdemDeServico(string ordemDeServico) {
+    this->ordemDeServico = ordemDeServico;
+}
