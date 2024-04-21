@@ -4,19 +4,25 @@
 #include <iostream>
 
 #include "funcionarios.hpp"
+#include "vendedor.hpp"
 using namespace std;
 
+// Caso o usuário logado seja um mecânico deverão ser exibidas as seguintes opções:
+// • Visualizar ordens de serviço abertas.
+// • Cadastrar serviços executados e peças utilizadas.
+
 class Mecanicos : public Funcionarios {
+
     private:
-    double salarioBase;
-    double bonusSalario;
+    string ordemDeServico;
 
     public:
-    Mecanicos(string nome, string cpf, double salarioBase, double bonusSalario);
-    double getSalarioBase();
-    double getBonusSalario();
-    void setSalarioBase(double salarioBase);
-    void setBonusSalario(double bonusSalario);
+    Mecanicos(string nome, string cpf, string ordemDeServico);
+    string getOrdemDeServico();
+    void setOrdemDeServico(string ordemDeServico);
+    void visualizarOrdensDeServico();
+    void cadastrarServicosExecutados();
+    void cadastrarPecasUtilizadas();
     
 
 };
