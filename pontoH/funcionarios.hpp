@@ -16,9 +16,6 @@ class Funcionarios {
     string getCpf();
     void setNome(string nome);
     void setCpf(string cpf);
-    virtual void visualizarOrdensDeServico() = 0;
-    
-
 };
 
 #endif

@@ -15,8 +15,9 @@ class Veiculo {
     double preco;
   //  double quilometragem;
     
-
-    public:
+  private:
+    vector<Cliente> clientes;
+  public:
     Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco);
     Veiculo();
     string getMarca();
@@ -31,8 +32,8 @@ class Veiculo {
     void setCor(string cor);
     void setAno(int ano);
     void setPreco(double preco);
-   // void setQuilometragem(double quilometragem);
-   // double getQuilometragem();
+  // void setQuilometragem(double quilometragem);
+  // double getQuilometragem();
 
 };
 

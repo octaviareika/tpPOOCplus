@@ -1,30 +1,13 @@
 #include <iostream>
-
-#include "veiculo.hpp"
 #include "cliente.hpp"
 #include "vendedor.hpp"
 #include "mecanicos.hpp"
 
-// A tela inicial do sistema deve ter as seguintes opções:
-// • Login (Para administrador, vendedor ou mecânico).
-/*• Sair do sistema, não é necessário persistir as informações ao sair do sistema, ou seja, as
-informações devem existir enquanto o sistema estiver rodando.
-Caso o usuário logado seja o administrador deverão ser exibidas as seguintes opções:
-• Editar dados de Vendedores.
-• Editar dados de Mecânicos.
-Caso o usuário logado seja um Vendedor deverão ser exibidas as seguintes opções:
-• Cadastrar cliente e veículo.
-• Gerar ordem de serviço.
-• Visualizar ordens de serviço de orçamento pendentes de aprovação do cliente e marcar como
-aprovadas.
-• Visualizar ordens de serviço executadas e realizar o fechamento.
-Caso o usuário logado seja um mecânico deverão ser exibidas as seguintes opções:
-• Visualizar ordens de serviço abertas.
-• Cadastrar serviços executados e peças utilizadas*/
+using namespace std;
 
-int main(){
-    Vendedor vendedor = Vendedor();
-
+int main() {
+    Vendedor vendedor;
+    Mecanicos mecanico;
 
     cout << "Tela de login do sistema de oficina" << endl;
     cout << "1 - Login" << endl;
@@ -33,7 +16,7 @@ int main(){
     int opcao;
     cin >> opcao;
 
-    if(opcao == 1){
+    if (opcao == 1) {
         cout << "Digite o seu login: ";
         string login;
         cin >> login;
@@ -41,7 +24,7 @@ int main(){
         string senha;
         cin >> senha;
 
-        if (login == "Admin" && senha == "Admin"){
+        if (login == "Admin" && senha == "Admin") {
             cout << "Bem vindo administrador" << endl;
             cout << "1 - Editar dados de Vendedores" << endl;
             cout << "2 - Editar dados de Mecânicos" << endl;
@@ -49,30 +32,39 @@ int main(){
             int opcaoAdmin;
             cin >> opcaoAdmin;
 
-            if(opcaoAdmin == 1){
+            if (opcaoAdmin == 1) {
                 cout << "Editar dados de Vendedores" << endl;
-            }else if(opcaoAdmin == 2){
+                cout << "Digite o novo nome do vendedor: ";
+                string novoNome;
+                cin >> novoNome;
+                vendedor.setNome(novoNome); 
+                cout << "Dados do vendedor atualizados com sucesso!" << endl;
+            } else if (opcaoAdmin == 2) {
                 cout << "Editar dados de Mecânicos" << endl;
-            }else{
+                cout << "Digite o novo nome do mecânico: ";
+                string novoNome;
+                cin >> novoNome;
+                mecanico.setNome(novoNome);  
+                cout << "Dados do mecânico atualizados com sucesso!" << endl;
+            } else {
                 cout << "Opção inválida" << endl;
             }
-        }else if (login == "Vendedor" && senha == "Vendedor"){
+        } else if (login == "Vendedor" && senha == "Vendedor") {
             cout << "Bem vindo vendedor" << endl;
             cout << "1 - Cadastrar cliente e veículo" << endl;
             cout << "2 - Gerar ordem de serviço" << endl;
-            cout << "3 - Visualizar ordens de serviço de orçamento pendentes de aprovação do cliente e marcar como aprovadas" << endl;
+            cout << "3 - Visualizar e aprovar ordens de serviço de orçamento pendentes" << endl;
             cout << "4 - Visualizar ordens de serviço executadas e realizar o fechamento" << endl;
             cout << "Digite a opção desejada: ";
             int opcaoVendedor;
             cin >> opcaoVendedor;
 
-            if(opcaoVendedor == 1){
-            
+            if (opcaoVendedor == 1) {
                 cout << "Cadastrar cliente e veículo" << endl;
                 cout << "Digite o nome do cliente: ";
                 string nome;
                 cin >> nome;
-                cout << "Digite o cpf do cliente: ";
+                cout << "Digite o CPF do cliente: ";
                 string cpf;
                 cin >> cpf;
                 cout << "Digite o endereço do cliente: ";
@@ -99,35 +91,68 @@ int main(){
                 cout << "Digite o preço do veículo: ";
                 double preco;
                 cin >> preco;
-                
-                Cliente cliente = Cliente(nome, cpf, endereco, telefone, Veiculo(marca, modelo, placa, cor, ano, preco));
-                vendedor.cadastrarCliente(cliente); // cadastrar cliente
-                
-            }else if(opcaoVendedor == 2){
-                // Na abertura da ordem deverá possuir o motivo da manutenção, além de outras informações como
-                //quilometragem do veículo. O sistema deverá estar apto a gerar todo o histórico de manutenções do
-                //veículo.
+                // Criar um objeto Veiculo com os dados fornecidos
+                Veiculo novoVeiculo(marca, modelo, placa, cor, ano, preco);
+                // Criar um objeto Cliente com os dados fornecidos
+                Cliente novoCliente(nome, cpf, endereco, telefone, novoVeiculo);
+                // Adicionar o cliente à lista de clientes do vendedor
+                vendedor.cadastrarCliente(novoCliente);
+                cout << "Cliente e veículo cadastrados com sucesso!" << endl;
+            } else if (opcaoVendedor == 2) {
+            cout << "Gerar ordem de serviço" << endl;
+            cout << "Digite o motivo da ordem de serviço: ";
+            string motivo;
+            cin.ignore(); // Limpar o buffer do cin antes de getline
+            getline(cin, motivo);
 
-                cout << "Gerar ordem de serviço" << endl;
-                string ordemDeServico;
-                ordemDeServico = vendedor.gerarOrdemDeServico();
-                
+            cout << "Digite a quilometragem do veículo: ";
+            double quilometragem;
+            cin >> quilometragem;
 
+            cout << "Escolha o tipo de ordem de serviço:" << endl;
+            cout << "1 - Manutenção" << endl;
+            cout << "2 - Orçamento" << endl;
+            int tipoOrdem;
+            cin >> tipoOrdem;
 
+            // Criar uma nova ordem de serviço com base no tipo selecionado
+            Cliente cliente; 
+            bool isManutencao = (tipoOrdem == 1);
+            vendedor.gerarOrdemDeServico(cliente, isManutencao, motivo, quilometragem);
 
-            }else if(opcaoVendedor == 3){
+            if (!isManutencao) {
+                // Orçamento: Aguardar aprovação do cliente
+                vendedor.visualizarOrdensPendentes();
+                cout << "Digite o número da ordem de serviço que deseja aprovar: ";
+                int numeroOrdem;
+                cin >> numeroOrdem;
+                vendedor.marcarOrdemComoAprovada(numeroOrdem);
+            }
 
-                cout << "Visualizar ordens de serviço de orçamento pendentes de aprovação do cliente e marcar como aprovadas" << endl;
-                
+            cout << "Ordem de serviço gerada com sucesso!" << endl;
+            } else if (opcaoVendedor == 3) {
+                cout << "Visualizar e aprovar ordens de serviço de orçamento pendentes" << endl;
+                vendedor.visualizarOrdensPendentes();
+                cout << "Digite o número da ordem de serviço que deseja aprovar: ";
+                int numeroOrdem;
+                cin >> numeroOrdem;
+                vendedor.marcarOrdemComoAprovada(numeroOrdem);
+                cout << "Ordem de serviço aprovada com sucesso!" << endl;
 
-
-            }else if(opcaoVendedor == 4){
+            } else if (opcaoVendedor == 4) {
                 cout << "Visualizar ordens de serviço executadas e realizar o fechamento" << endl;
-            }else{
+                vendedor.visualizarOrdensExecutadas();
+                cout << "Digite o número da ordem de serviço que deseja fechar: ";
+                int numeroOrdem;
+                cin >> numeroOrdem;
+                vendedor.fecharOrdemDeServico(numeroOrdem);
+                cout << "Ordem de serviço fechada com sucesso!" << endl;
+
+            } else {
                 cout << "Opção inválida" << endl;
             }
 
-    }else if (login == "Mecanico" && senha == "Mecanico"){
+        } else if (login == "Mecanico" && senha == "Mecanico") {
             cout << "Bem vindo mecânico" << endl;
             cout << "1 - Visualizar ordens de serviço abertas" << endl;
             cout << "2 - Cadastrar serviços executados e peças utilizadas" << endl;
@@ -135,18 +160,35 @@ int main(){
             int opcaoMecanico;
             cin >> opcaoMecanico;
 
-            if(opcaoMecanico == 1){
+            if (opcaoMecanico == 1) {
                 cout << "Visualizar ordens de serviço abertas" << endl;
-            }else if(opcaoMecanico == 2){
+                mecanico.visualizarOrdensAbertas();
+            } else if (opcaoMecanico == 2) {
                 cout << "Cadastrar serviços executados e peças utilizadas" << endl;
-            }else{
+                cout << "Digite o número da ordem de serviço que deseja atualizar: ";
+                int numeroOrdem;
+                cin >> numeroOrdem;
+                cout << "Descreva os serviços realizados: ";
+                string servicosRealizados;
+                cin >> servicosRealizados;
+                cout << "Informe o valor dos serviços: ";
+                double valorServicos;
+                cin >> valorServicos;
+                cout << "Descreva as peças utilizadas: ";
+                string pecasUtilizadas;
+                cin >> pecasUtilizadas;
+                cout << "Informe o valor das peças: ";
+                double valorPecas;
+                cin >> valorPecas;
+                mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas);
+                cout << "Serviços e peças cadastrados com sucesso para a ordem de serviço!" << endl;
+            } else {
                 cout << "Opção inválida" << endl;
             }
-        }else{
+        } else {
             cout << "Login ou senha inválidos" << endl;
         }
-
-    }else if(opcao == 2){
+    } else if (opcao == 2) {
         cout << "Saindo do sistema" << endl;
     }
 

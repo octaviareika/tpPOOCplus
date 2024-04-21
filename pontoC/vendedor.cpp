@@ -13,35 +13,65 @@ Vendedor::Vendedor(string nome, string cpf, string ordemDeServico) : Funcionario
     this->ordemDeServico = ordemDeServico;
 }
 
-string Vendedor::getOrdemDeServico() {
-    return ordemDeServico;
-}
 
-void Vendedor::setOrdemDeServico(string ordemDeServico) { 
-    this->ordemDeServico = ordemDeServico;
-}
+OrdemServico gerarOrdemDeServico(Cliente cliente, bool manutencao, string motivo, double quilometragem);
 
-string Vendedor:: gerarOrdemDeServico() { // manutenção ou orçamento
-    cout << "Gerando ordem de serviço...Qual será a ordem de serviço? " << endl;
-    cin >> ordemDeServico; // gerar ordem de serviço
-    return ordemDeServico;
+OrdemServico Vendedor::gerarOrdemDeServico(Cliente cliente, bool manutencao, string motivo, double quilometragem) {
+    OrdemServico ordem(cliente, manutencao, motivo, quilometragem);
+    ordensDeServico.push_back(ordem);
+    cout << "Ordem de serviço gerada com sucesso!" << endl;
+    return ordem; // Retornar a ordem de serviço criada
 }
 
 
-void Vendedor::visualizarOrdensDeServico(){
-    cout << "Visualizando ordens de serviço..." << endl;
-    for (int i = 0; i < clientes.size(); i++) {
-        cout << "Nome: " << clientes[i].getNome() << endl;
-        cout << "CPF: " << clientes[i].getCpf() << endl;
-        cout << "Endereço: " << clientes[i].getEndereco() << endl;
-        cout << "Telefone: " << clientes[i].getTelefone() << endl;
-        cout << "Veículo: " << clientes[i].getVeiculo().getMarca() << endl;
-        cout << "Modelo: " << clientes[i].getVeiculo().getModelo() << endl;
-        cout << "Placa: " << clientes[i].getVeiculo().getPlaca() << endl;
-        cout << "Ano: " << clientes[i].getVeiculo().getAno() << endl;
-        cout << "Cor: " << clientes[i].getVeiculo().getCor() << endl;
-        cout << "Ordem de serviço: " << ordemDeServico << endl;// ordem que o cliente quer
-        cout << "Ordem de serviço aprovadas: " << clientes[i].getAprovacao() << endl;
+void Vendedor::visualizarOrdensPendentes() {
+    cout << "Ordens de serviço de orçamento pendentes de aprovação:" << endl;
+    for (int i = 0; i < ordensDeServico.size(); i++) {
+        if (!ordensDeServico[i].foiAprovada()) {
+            cout << i + 1 << ". " << ordensDeServico[i].getCliente().getNome() << " - " << ordensDeServico[i].getMotivo() << endl;
+        }
+    }
+}
+
+void Vendedor::marcarOrdemComoAprovada(int indice) {
+    if (indice >= 0 && indice < ordensDeServico.size()) {
+        ordensDeServico[indice].aprovar();
+        cout << "Ordem de serviço aprovada com sucesso!" << endl;
+    } else {
+        cout << "Índice inválido." << endl;
+    }
+}
+
+void Vendedor::visualizarOrdensExecutadas() {
+    cout << "Ordens de serviço executadas:" << endl;
+    for (const auto& ordem : ordensDeServico) {
+        if (ordem.foiExecutada()) {
+            cout << ordem << endl;
+        }
+    }
+}
+
+ostream& operator<<(ostream& os, const OrdemServico& ordem) {
+    os << "Nome: " << ordem.getCliente().getNome() << endl;
+    os << "CPF: " << ordem.getCliente().getCpf() << endl;
+    os << "Endereço: " << ordem.getCliente().getEndereco() << endl;
+    os << "Telefone: " << ordem.getCliente().getTelefone() << endl;
+    os << "Veículo: " << ordem.getCliente().getVeiculo().getMarca() << endl;
+    os << "Modelo: " << ordem.getCliente().getVeiculo().getModelo() << endl;
+    os << "Placa: " << ordem.getCliente().getVeiculo().getPlaca() << endl;
+    os << "Ano: " << ordem.getCliente().getVeiculo().getAno() << endl;
+    os << "Cor: " << ordem.getCliente().getVeiculo().getCor() << endl;
+    os << "Ordem de serviço: " << ordem << endl;// ordem que o cliente quer
+    return os;
+}
+ 
+
+void Vendedor::fecharOrdemDeServico(int indice) {
+    if (indice >= 0 && indice < ordensDeServico.size()) {
+        ordensDeServico[indice].fechar();
+        cout << "Ordem de serviço fechada com sucesso!" << endl;
+    } else {
+        cout << "Índice inválido." << endl;
     }
 }
 void Vendedor::cadastrarCliente(Cliente cliente) {
