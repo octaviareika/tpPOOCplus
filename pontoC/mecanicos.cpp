@@ -22,10 +22,6 @@ void Mecanicos::setOrdemDeServico(string ordemDeServico) {
 //autorize deverá ser encerrada.
 
 void Mecanicos::visualizarOrdensDeServico() {
-    cout << "Ordens de serviço abertas: " << this->ordemDeServico << endl;
-    if (this->getOrdemDeServico() == "Orçamento") {
-        cout << "Serviço não executado" << endl;
-    } else {
-        cout << "Serviço executado" << endl;
-    }
+    cout << "Visualizando ordens de serviço abertas..." << endl;
+    cout << "Ordem de serviço: " << ordemDeServico << endl;
 }

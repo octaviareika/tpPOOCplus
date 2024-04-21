@@ -13,11 +13,11 @@ class Veiculo {
     string cor;
     int ano;
     double preco;
-    double quilometragem;
+  //  double quilometragem;
     
 
     public:
-    Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco, double quilometragem);
+    Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco);
     Veiculo();
     string getMarca();
     string getModelo();
@@ -31,8 +31,8 @@ class Veiculo {
     void setCor(string cor);
     void setAno(int ano);
     void setPreco(double preco);
-    void setQuilometragem(double quilometragem);
-    double getQuilometragem();
+   // void setQuilometragem(double quilometragem);
+   // double getQuilometragem();
 
 };
 

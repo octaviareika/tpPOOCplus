@@ -49,3 +49,25 @@ void Vendedor::cadastrarCliente(Cliente cliente) {
     clientes.push_back(cliente);
 
 }
+
+void Vendedor::cadastrarVeiculo(Cliente cliente) {
+    cout << "Cadastrando veículo..." << endl;
+    cout << "Digite a marca do veiculo: ";
+    string marca;
+    cin >> marca;
+    cout << "Digite o modelo do veículo: ";
+    string modelo;
+    cin >> modelo;
+    cout << "Digite o ano do veículo: ";
+    int ano;
+    cin >> ano;
+    cout << "Digite a placa do veículo: ";
+    string placa;
+    cin >> placa;
+    cout << "Digite a cor do veículo: ";
+    string cor;
+    cin >> cor;
+    cout << "Digite o preço do veículo: ";
+    double preco;
+    cin >> preco;
+}

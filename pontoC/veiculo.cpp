@@ -5,14 +5,14 @@
 
 using namespace std;
 
-Veiculo::Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco, double quilometragem) {
+Veiculo::Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco) {
     this->marca = marca;
     this->modelo = modelo;
     this->placa = placa;
     this->cor = cor;
     this->ano = ano;
     this->preco = preco;
-    this->quilometragem = quilometragem;
+    //this->quilometragem = quilometragem;
 }
 
 Veiculo::Veiculo() {
@@ -22,7 +22,7 @@ Veiculo::Veiculo() {
     this->cor = "";
     this->ano = 0;
     this->preco = 0;
-    this->quilometragem = 0;
+    
 }
 
 string Veiculo::getMarca() {
@@ -73,13 +73,13 @@ void Veiculo::setPreco(double preco) {
     this->preco = preco;
 }
 
-void Veiculo::setQuilometragem(double quilometragem) {
+/*void Veiculo::setQuilometragem(double quilometragem) {
     this->quilometragem = quilometragem;
 }
 
 double Veiculo::getQuilometragem() {
     return quilometragem;
-}
+}*/
 
 
 

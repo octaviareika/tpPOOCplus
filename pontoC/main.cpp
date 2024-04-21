@@ -99,10 +99,8 @@ int main(){
                 cout << "Digite o preço do veículo: ";
                 double preco;
                 cin >> preco;
-                cout << "Digite a quilometragem do veículo: ";
-                double quilometragem;
-                cin >> quilometragem;
-                Cliente cliente = Cliente(nome, cpf, endereco, telefone, Veiculo(marca, modelo, placa, cor, ano, preco, quilometragem));
+                
+                Cliente cliente = Cliente(nome, cpf, endereco, telefone, Veiculo(marca, modelo, placa, cor, ano, preco));
                 vendedor.cadastrarCliente(cliente); // cadastrar cliente
                 
             }else if(opcaoVendedor == 2){
@@ -119,9 +117,8 @@ int main(){
 
             }else if(opcaoVendedor == 3){
 
-
                 cout << "Visualizar ordens de serviço de orçamento pendentes de aprovação do cliente e marcar como aprovadas" << endl;
-                vendedor.visualizarOrdensDeServico();
+                
 
 
             }else if(opcaoVendedor == 4){
