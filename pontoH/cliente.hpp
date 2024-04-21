@@ -13,10 +13,10 @@ class Cliente {
     string endereco;
     string telefone;
     Veiculo veiculo;
-    
+
 
     public:
-    Cliente(string nome, string cpf, string endereco, string telefone);
+    Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo);
     string getNome();
     string getCpf();
     string getEndereco();

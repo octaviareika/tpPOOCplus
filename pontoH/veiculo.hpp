@@ -18,6 +18,7 @@ class Veiculo {
 
     public:
     Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco, double quilometragem);
+    Veiculo();
     string getMarca();
     string getModelo();
     string getPlaca();

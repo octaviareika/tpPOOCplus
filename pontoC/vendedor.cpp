@@ -4,6 +4,10 @@
 
 using namespace std;
 
+// Ao chegar à oficina o cliente será atendido por um vendedor que irá providenciar o seu cadastro bem
+/// como de seu veículo, caso não exista, e em seguida gerar uma ordem de serviço para solicitação de
+// orçamento ou manutenção
+
 
 Vendedor::Vendedor(string nome, string cpf, string ordemDeServico) : Funcionarios(nome, cpf) {
     this->ordemDeServico = ordemDeServico;
@@ -22,7 +26,7 @@ void Vendedor::visualizarOrdensDeServico() {
 }
 
 string Vendedor:: gerarOrdemDeServico() { // manutenção ou orçamento
-    cout << "Gerando ordem de serviço..." << endl;
+    cout << "Gerando ordem de serviço...Qual será a ordem de serviço? " << endl;
     cin >> ordemDeServico; // gerar ordem de serviço
     return ordemDeServico;
 }
