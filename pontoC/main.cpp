@@ -96,6 +96,7 @@ int main(){
 
     }else if(opcao == 2){
         cout << "Saindo do sistema" << endl;
+    }
 
     return 0;
 }
