@@ -94,6 +94,8 @@ int main(){
             cout << "Login ou senha inválidos" << endl;
         }
 
+    }else if(opcao == 2){
+        cout << "Saindo do sistema" << endl;
 
     return 0;
 }
