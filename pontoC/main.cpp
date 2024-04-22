@@ -140,7 +140,7 @@ int main() {
                                 cout << "2 - Orçamento" << endl;
                                 cin >> tipoOrdem;
                                 bool isManutencao = (tipoOrdem == 1);
-                                OrdemServico* ordem = vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, quilometragem);
+                                vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, quilometragem);
                             } else {
                                 cout << "Índice de cliente inválido." << endl;
                             }
@@ -152,6 +152,7 @@ int main() {
                             cin >> numeroOrdem;
                             vendedor.marcarOrdemComoAprovada(numeroOrdem);
                             vendedor.enviarOrdemParaMecanico(vendedor.getOrdemDeServico(numeroOrdem));
+                            
                         } else if (opcaoVendedor == 4) {
                             // Visualizar e fechar ordens de serviço executadas
                             vendedor.visualizarOrdensExecutadas();
