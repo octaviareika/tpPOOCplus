@@ -131,7 +131,6 @@ int main() {
                             Cliente cliente; 
                             bool isManutencao = (tipoOrdem == 1);
                             vendedor.gerarOrdemDeServico(cliente, isManutencao, motivo, quilometragem);
-                            cout << "Ordem de serviço gerada com sucesso!" << endl;
                         } else if (opcaoVendedor == 3) {
                             // Visualizar e aprovar ordens de serviço pendentes
                             vendedor.visualizarOrdensPendentes();
@@ -139,7 +138,6 @@ int main() {
                             int numeroOrdem;
                             cin >> numeroOrdem;
                             vendedor.marcarOrdemComoAprovada(numeroOrdem);
-                            cout << "Ordem de serviço aprovada com sucesso!" << endl;
                         } else if (opcaoVendedor == 4) {
                             // Visualizar e fechar ordens de serviço executadas
                             vendedor.visualizarOrdensExecutadas();
@@ -147,7 +145,6 @@ int main() {
                             int numeroOrdem;
                             cin >> numeroOrdem;
                             vendedor.fecharOrdemDeServico(numeroOrdem);
-                            cout << "Ordem de serviço fechada com sucesso!" << endl;
                         } else if (opcaoVendedor == 5) {
                             break;  // Voltar ao menu principal
                         } else {
@@ -187,7 +184,6 @@ int main() {
                             double valorPecas;
                             cin >> valorPecas;
                             mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas);
-                            cout << "Serviços e peças cadastrados com sucesso para a ordem de serviço!" << endl;
                         } else if (opcaoMecanico == 3) {
                             break;  // Voltar ao menu principal
                         } else {

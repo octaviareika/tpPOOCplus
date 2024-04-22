@@ -67,12 +67,10 @@ void Vendedor::fecharOrdemDeServico(int indice) {
 }
 
 void Vendedor::cadastrarCliente(Cliente cliente) {
-    cout << "Cadastrando cliente..." << endl;
     clientes.push_back(cliente);
 
 }
 
 void Vendedor::cadastrarVeiculo(Veiculo veiculo, Cliente cliente) {
     clientes.back().setVeiculo(veiculo);
-    cout << "Veículo cadastrado com sucesso para o cliente " << cliente.getNome() << "!" << endl;
 }
