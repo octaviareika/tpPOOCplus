@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
-
+#include "cliente.hpp"
 #include "veiculo.hpp"
+#include "ordem_servico.hpp"
 
 using namespace std;
 
@@ -72,14 +73,13 @@ void Veiculo::setAno(int ano) {
 void Veiculo::setPreco(double preco) {
     this->preco = preco;
 }
-
-/*void Veiculo::setQuilometragem(double quilometragem) {
+void Veiculo::setQuilometragem(double quilometragem) {
     this->quilometragem = quilometragem;
 }
 
 double Veiculo::getQuilometragem() {
     return quilometragem;
-}*/
+}
 
 
 

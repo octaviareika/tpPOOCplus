@@ -1,4 +1,5 @@
 #include <iostream>
+#include "ordem_servico.hpp"
 #include "vendedor.hpp"
 #include <vector>
 
@@ -8,22 +9,29 @@ using namespace std;
 /// como de seu veículo, caso não exista, e em seguida gerar uma ordem de serviço para solicitação de
 // orçamento ou manutenção
 
+Vendedor::Vendedor(string nome, string cpf) : Funcionarios(nome, cpf) {}
 
-Vendedor::Vendedor(string nome, string cpf, string ordemDeServico) : Funcionarios(nome, cpf) {
-    this->ordemDeServico = ordemDeServico;
+void Vendedor::setNome(string nome) {
+    this->nome = nome;
 }
 
-OrdemServico Vendedor::gerarOrdemDeServico(Cliente cliente, bool manutencao, string motivo, double quilometragem) {
-    OrdemServico ordem(cliente, manutencao, motivo, quilometragem);
+void Vendedor::adicionarVeiculo(Veiculo veiculo) {
+    clientes.back().setVeiculo(veiculo);
+}
+string Vendedor::getNome() const {
+    return nome;
+}
+
+OrdemServico Vendedor::gerarOrdemDeServico(const Cliente& cliente, bool isManutencao, string motivo, double quilometragem) {
+    OrdemServico ordem(cliente, isManutencao, motivo, quilometragem);
     ordensDeServico.push_back(ordem);
     cout << "Ordem de serviço gerada com sucesso!" << endl;
-    return ordem; // Retornar a ordem de serviço criada
+    return ordem;
 }
-
 
 void Vendedor::visualizarOrdensPendentes() {
     cout << "Ordens de serviço de orçamento pendentes de aprovação:" << endl;
-    for (int i = 0; i < ordensDeServico.size(); i++) {
+    for (size_t i = 0; i < ordensDeServico.size(); i++) {
         if (!ordensDeServico[i].foiAprovada()) {
             cout << i + 1 << ". " << ordensDeServico[i].getCliente().getNome() << " - " << ordensDeServico[i].getMotivo() << endl;
         }
@@ -31,46 +39,33 @@ void Vendedor::visualizarOrdensPendentes() {
 }
 
 void Vendedor::marcarOrdemComoAprovada(int indice) {
-    if (indice >= 0 && indice < ordensDeServico.size()) {
-        ordensDeServico[indice].aprovar();
+    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
+        ordensDeServico[static_cast<size_t>(indice)].aprovar();
         cout << "Ordem de serviço aprovada com sucesso!" << endl;
     } else {
         cout << "Índice inválido." << endl;
     }
 }
 
+
 void Vendedor::visualizarOrdensExecutadas() {
     cout << "Ordens de serviço executadas:" << endl;
     for (const auto& ordem : ordensDeServico) {
         if (ordem.foiExecutada()) {
-            cout << ordem << endl;
+            cout << ordem << endl; // Aqui é onde o operador << será chamado para imprimir a OrdemServico
         }
     }
 }
 
-ostream& operator<<(ostream& os, const OrdemServico& ordem) {
-    os << "Nome: " << ordem.getCliente().getNome() << endl;
-    os << "CPF: " << ordem.getCliente().getCpf() << endl;
-    os << "Endereço: " << ordem.getCliente().getEndereco() << endl;
-    os << "Telefone: " << ordem.getCliente().getTelefone() << endl;
-    os << "Veículo: " << ordem.getCliente().getVeiculo().getMarca() << endl;
-    os << "Modelo: " << ordem.getCliente().getVeiculo().getModelo() << endl;
-    os << "Placa: " << ordem.getCliente().getVeiculo().getPlaca() << endl;
-    os << "Ano: " << ordem.getCliente().getVeiculo().getAno() << endl;
-    os << "Cor: " << ordem.getCliente().getVeiculo().getCor() << endl;
-    os << "Ordem de serviço: " << ordem << endl;// ordem que o cliente quer
-    return os;
-}
- 
-
 void Vendedor::fecharOrdemDeServico(int indice) {
-    if (indice >= 0 && indice < ordensDeServico.size()) {
-        ordensDeServico[indice].fechar();
+    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
+        ordensDeServico[static_cast<size_t>(indice)].fechar();
         cout << "Ordem de serviço fechada com sucesso!" << endl;
     } else {
         cout << "Índice inválido." << endl;
     }
 }
+
 void Vendedor::cadastrarCliente(Cliente cliente) {
     cout << "Cadastrando cliente..." << endl;
     clientes.push_back(cliente);
@@ -78,8 +73,8 @@ void Vendedor::cadastrarCliente(Cliente cliente) {
 }
 
 void Vendedor::cadastrarVeiculo(Cliente cliente) {
-    cout << "Cadastrando veículo..." << endl;
-    cout << "Digite a marca do veiculo: ";
+    cout << "Cadastrando veículo para o cliente " << cliente.getNome() << "..." << endl;
+    cout << "Digite a marca do veículo: ";
     string marca;
     cin >> marca;
     cout << "Digite o modelo do veículo: ";
@@ -97,4 +92,9 @@ void Vendedor::cadastrarVeiculo(Cliente cliente) {
     cout << "Digite o preço do veículo: ";
     double preco;
     cin >> preco;
+    // Criar um objeto Veiculo com os dados fornecidos
+    Veiculo novoVeiculo(marca, modelo, placa, cor, ano, preco);
+    // Adicionar o veículo ao cliente
+    adicionarVeiculo(novoVeiculo);
+    cout << "Veículo cadastrado com sucesso para o cliente " << cliente.getNome() << "!" << endl;
 }

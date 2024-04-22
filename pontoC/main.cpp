@@ -2,7 +2,8 @@
 #include "cliente.hpp"
 #include "vendedor.hpp"
 #include "mecanicos.hpp"
-
+#include "veiculo.hpp"
+#include "ordem_servico.hpp"
 using namespace std;
 
 int main() {
@@ -116,7 +117,6 @@ int main() {
             Cliente cliente; 
             bool isManutencao = (tipoOrdem == 1);
             vendedor.gerarOrdemDeServico(cliente, isManutencao, motivo, quilometragem);
-
             cout << "Ordem de serviço gerada com sucesso!" << endl;
             } else if (opcaoVendedor == 3) {
                 cout << "Visualizar e aprovar ordens de serviço de orçamento pendentes" << endl;

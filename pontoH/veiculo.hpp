@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include "cliente.hpp"
 class Cliente;
 using namespace std;
 
@@ -15,7 +14,7 @@ class Veiculo {
     string cor;
     int ano;
     double preco;
-  //  double quilometragem;
+    double quilometragem;
     
   private:
     vector<Cliente> clientes;
@@ -34,8 +33,8 @@ class Veiculo {
     void setCor(string cor);
     void setAno(int ano);
     void setPreco(double preco);
-  // void setQuilometragem(double quilometragem);
-  // double getQuilometragem();
+    void setQuilometragem(double quilometragem);
+    double getQuilometragem();
 
 };
 

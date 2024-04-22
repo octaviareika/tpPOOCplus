@@ -1,7 +1,6 @@
 #include <iostream>
 #include "cliente.hpp"
 #include <vector>
-#include "veiculo.hpp"
 using namespace std;
 
 Cliente::Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo) {
