@@ -104,30 +104,18 @@ int main() {
             string motivo;
             cin.ignore(); // Limpar o buffer do cin antes de getline
             getline(cin, motivo);
-
             cout << "Digite a quilometragem do veículo: ";
             double quilometragem;
             cin >> quilometragem;
-
             cout << "Escolha o tipo de ordem de serviço:" << endl;
             cout << "1 - Manutenção" << endl;
             cout << "2 - Orçamento" << endl;
             int tipoOrdem;
             cin >> tipoOrdem;
-
             // Criar uma nova ordem de serviço com base no tipo selecionado
             Cliente cliente; 
             bool isManutencao = (tipoOrdem == 1);
             vendedor.gerarOrdemDeServico(cliente, isManutencao, motivo, quilometragem);
-
-            if (!isManutencao) {
-                // Orçamento: Aguardar aprovação do cliente
-                vendedor.visualizarOrdensPendentes();
-                cout << "Digite o número da ordem de serviço que deseja aprovar: ";
-                int numeroOrdem;
-                cin >> numeroOrdem;
-                vendedor.marcarOrdemComoAprovada(numeroOrdem);
-            }
 
             cout << "Ordem de serviço gerada com sucesso!" << endl;
             } else if (opcaoVendedor == 3) {
