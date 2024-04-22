@@ -31,13 +31,16 @@ OrdemServico* Vendedor::gerarOrdemDeServico(Cliente& cliente, bool isManutencao,
     // Gerar um número de ordem único (por exemplo, usando um contador estático)
     static int numeroOrdemCounter = 1;
     int numeroOrdem = numeroOrdemCounter++;
-    // Criar uma nova instância de OrdemServico
+    // Criar uma nova instância de OrdemServico no heap (usando new)
     OrdemServico* ordem = new OrdemServico(&cliente, isManutencao, motivo, quilometragem, numeroOrdem);
     // Adicionar a ordem de serviço ao cliente
     cliente.adicionarOrdemServico(*ordem);
+    // Adicionar a ordem de serviço à lista de ordensDeServico do Vendedor
+    ordensDeServico.push_back(*ordem);
     // Retornar o ponteiro para a ordem de serviço criada
     return ordem;
 }
+
 
 void Vendedor::visualizarOrdensPendentes() {
     std::cout << "Ordens de serviço de orçamento pendentes de aprovação:" << std::endl;
