@@ -12,10 +12,8 @@ private:
     string ordemDeServico;
 
 public:
-    // Construtor padrão
+    // Construtores
     Mecanicos();
-
-    // Construtor com parâmetros
     Mecanicos(string nome, string cpf, string ordemDeServico);
 
     // Getters e Setters
@@ -27,9 +25,10 @@ public:
 
     string getOrdemDeServico() const;
     void setOrdemDeServico(const string& ordemDeServico);
-    void cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas);
+
     // Outros métodos da classe
     void visualizarOrdensAbertas() const;
+    void cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas);
 };
 
 #endif

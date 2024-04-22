@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "cliente.hpp"
+class Cliente;
 using namespace std;
 
 class Veiculo {
