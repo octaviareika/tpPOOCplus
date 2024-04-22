@@ -59,4 +59,3 @@ bool Cliente::getAprovacao() {
 void Cliente::setAprovacao(bool ordemDeServicoAprovacao) {
     this->ordemDeServiçoAprovada = ordemDeServicoAprovacao;
 }
-

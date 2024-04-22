@@ -18,7 +18,6 @@ class Cliente {
 
     public:
     Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo);
-    Cliente();
     string getNome();
     string getCpf();
     string getEndereco();
