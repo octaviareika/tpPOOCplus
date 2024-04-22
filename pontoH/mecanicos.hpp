@@ -3,12 +3,16 @@
 
 #include <iostream>
 #include "funcionarios.hpp"
+#include "ordem_servico.hpp"
+#include "vendedor.hpp"
 #include <string>
+#include <vector>
 using namespace std;
 
 class Mecanicos : public Funcionarios{
 private:
     string ordemDeServico;
+    vector<OrdemServico> ordensDeServico;
 
 public:
     // Construtores
@@ -26,6 +30,8 @@ public:
     // Outros métodos da classe
     void visualizarOrdensAbertas() const;
     void cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas);
+    void receberOrdemDeServico(OrdemServico& ordem);
+
 };
 
 #endif

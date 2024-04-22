@@ -40,9 +40,10 @@ void Vendedor::visualizarOrdensPendentes() {
     }
 }
 
-void Vendedor::marcarOrdemComoAprovada(int indice) {
+void Vendedor::marcarOrdemComoAprovada(int indice, Mecanicos& mecanico) {
     if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
         ordensDeServico[static_cast<size_t>(indice)].aprovar();
+        mecanico.receberOrdemDeServico(ordensDeServico[static_cast<size_t>(indice)]);
         std::cout << "Ordem de serviço aprovada com sucesso!" << std::endl;
     } else {
         std::cout << "Índice inválido." << std::endl;

@@ -47,7 +47,7 @@ bool OrdemServico::isManutencao() const {
     return manutencao;
 }
 
-OrdemServico& OrdemServico::operator=(const OrdemServico& other) {
+OrdemServico& OrdemServico::operator=(const OrdemServico& other) { // Operador de atribuição
     if (this != &other) {
         // Liberar o cliente atual (se houver)
         delete cliente;
