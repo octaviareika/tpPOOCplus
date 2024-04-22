@@ -2,27 +2,21 @@
 #define MECANICOS_HPP
 
 #include <iostream>
+#include "funcionarios.hpp"
 #include <string>
 using namespace std;
 
-class Mecanicos {
+class Mecanicos : public Funcionarios{
 private:
-    string nome;
-    string cpf;
     string ordemDeServico;
 
 public:
     // Construtores
     Mecanicos();
-    Mecanicos(string nome, string cpf, string ordemDeServico);
+    Mecanicos(string nome, string cpf, string ordemDeServico): Funcionarios(nome, cpf), ordemDeServico(ordemDeServico) {}
 
     // Getters e Setters
-    string getNome() const;
-    void setNome(const string& nome);
-
-    string getCpf() const;
-    void setCpf(const string& cpf);
-
+    
     string getOrdemDeServico() const;
     void setOrdemDeServico(const string& ordemDeServico);
 

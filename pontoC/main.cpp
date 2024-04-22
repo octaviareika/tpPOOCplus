@@ -100,6 +100,7 @@ int main() {
                 vendedor.cadastrarCliente(novoCliente);
                 vendedor.cadastrarVeiculo(novoVeiculo, novoCliente);
                 cout << "Cliente e veículo cadastrados com sucesso!" << endl;
+                
             } else if (opcaoVendedor == 2) {
             cout << "Gerar ordem de serviço" << endl;
             cout << "Digite o motivo da ordem de serviço: ";
