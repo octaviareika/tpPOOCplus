@@ -13,9 +13,6 @@ Vendedor::Vendedor(string nome, string cpf, string ordemDeServico) : Funcionario
     this->ordemDeServico = ordemDeServico;
 }
 
-
-OrdemServico gerarOrdemDeServico(Cliente cliente, bool manutencao, string motivo, double quilometragem);
-
 OrdemServico Vendedor::gerarOrdemDeServico(Cliente cliente, bool manutencao, string motivo, double quilometragem) {
     OrdemServico ordem(cliente, manutencao, motivo, quilometragem);
     ordensDeServico.push_back(ordem);
