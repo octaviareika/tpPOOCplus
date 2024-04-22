@@ -2,9 +2,9 @@
 #include "cliente.hpp"
 #include <iostream>
 
-OrdemServico::OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem)
+OrdemServico::OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem, int numeroOrdem)
     : cliente(cliente), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem),
-      aprovada(false), executada(false) {}
+      aprovada(false), executada(false), numeroOrdem(numeroOrdem) {}
 
 OrdemServico::~OrdemServico() {
 }
@@ -81,3 +81,8 @@ ostream& operator<<(ostream& os, const OrdemServico& ordem) {
     }
     return os;
 }
+
+int OrdemServico::getNumeroOrdem() const {
+    return numeroOrdem;
+}
+

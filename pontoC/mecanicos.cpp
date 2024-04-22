@@ -1,5 +1,6 @@
 #include <iostream>
 #include "mecanicos.hpp"
+#include "ordem_servico.hpp"
 
 
 // Construtores
@@ -41,16 +42,57 @@ void Mecanicos::setOrdemDeServico(const string& ordemDeServico) {
     this->ordemDeServico = ordemDeServico;
 }
 
-// Outros métodos da classe
-void Mecanicos::visualizarOrdensAbertas() const {
-    cout << "Visualizando ordens de serviço abertas..." << endl;
-    cout << "Ordem de serviço: " << ordemDeServico << endl;
-}
+
 
 void Mecanicos::cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas) {
-    cout << "Serviços executados cadastrados com sucesso para a ordem de serviço " << numeroOrdem << endl;
-    cout << "Serviços realizados: " << servicosRealizados << endl;
-    cout << "Valor dos serviços: " << valorServicos << endl;
-    cout << "Peças utilizadas: " << pecasUtilizadas << endl;
-    cout << "Valor das peças: " << valorPecas << endl;
+    // Encontrar a ordem de serviço pelo número
+    for (OrdemServico& ordem : ordensEmExecucao) {
+        if (ordem.getNumeroOrdem() == numeroOrdem) {
+            // Adicionar os serviços realizados
+            ordem.adicionarServico(servicosRealizados, valorServicos);
+            // Adicionar as peças utilizadas
+            ordem.adicionarPeca(pecasUtilizadas, valorPecas);
+            // Encerrar a execução do método após encontrar a ordem
+            return;
+        }
+    }
+    throw runtime_error("Ordem de serviço não encontrada com o número especificado.");
+}
+
+void Mecanicos::visualizarOrdensAbertas() const {
+    cout << "Ordens de serviço em aberto:" << endl;
+    for (const OrdemServico& ordem : ordensEmExecucao) {
+        // Exibir informações básicas da ordem de serviço
+        cout << "Número: " << ordem.getNumeroOrdem() << endl;
+        cout << "Cliente: " << ordem.getCliente()->getNome() << endl;
+        cout << "Motivo: " << ordem.getMotivo() << endl;
+        cout << "Manutenção: " << (ordem.isManutencao() ? "Sim" : "Não") << endl;
+        cout << "Aprovada: " << (ordem.foiAprovada() ? "Sim" : "Não") << endl;
+        cout << endl;
+    }
+}
+
+void Mecanicos::adicionarOrdemServico(OrdemServico* ordem) {
+    ordensEmExecucao.push_back(*ordem);
+    cout << "Ordem de serviço adicionada para execução." << endl;
+}
+void Mecanicos::moverOrdemParaExecutadas(int numeroOrdem) {
+    // Encontrar a ordem de serviço com base no número fornecido
+    OrdemServico* ordem = buscarOrdemPorNumero(ordensEmExecucao, numeroOrdem);
+    if (ordem) {
+        // Marcar a ordem como executada
+        ordem->foiExecutada();
+        std::cout << "Ordem de serviço movida para o estado de 'executada'." << std::endl;
+    } else {
+        std::cerr << "Erro: ordem de serviço não encontrada." << std::endl;
+    }
+}
+
+OrdemServico* Mecanicos::buscarOrdemPorNumero(vector<OrdemServico>& ordens, int numeroOrdem) {
+    for (OrdemServico& ordem : ordens) {
+        if (ordem.getNumeroOrdem() == numeroOrdem) {
+            return &ordem;
+        }
+    }
+    return nullptr;
 }

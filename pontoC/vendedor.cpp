@@ -1,6 +1,8 @@
 #include <iostream>
 #include "ordem_servico.hpp"
 #include "vendedor.hpp"
+#include "funcionarios.hpp"
+#include "mecanicos.hpp"
 #include "cliente.hpp"
 #include <vector>
 
@@ -10,10 +12,12 @@ using namespace std;
 /// como de seu veículo, caso não exista, e em seguida gerar uma ordem de serviço para solicitação de
 // orçamento ou manutenção
 
-Vendedor::Vendedor() : Funcionarios("", "") {
+Vendedor::Vendedor() : Funcionarios("", ""), mecanico(*new Mecanicos()){
 }
 
-Vendedor::Vendedor(string nome, string cpf) : Funcionarios(nome, cpf) {}
+Vendedor::Vendedor(const string& nome, const string& cpf, Mecanicos& mecanico)
+    : Funcionarios(nome, cpf), mecanico(mecanico) {
+}
 
 void Vendedor::setNome(const std::string& nome) {
     this->nome = nome;
@@ -23,11 +27,15 @@ std::string Vendedor::getNome() const {
     return nome;
 }
 
-OrdemServico Vendedor::gerarOrdemDeServico(Cliente& cliente, bool isManutencao, const std::string& motivo, double quilometragem) {
-    OrdemServico ordem(&cliente, isManutencao, motivo, quilometragem);
-    ordensDeServico.push_back(ordem);
-    cliente.adicionarOrdemServico(ordem); 
-    std::cout << "Ordem de serviço gerada com sucesso!" << std::endl;
+OrdemServico* Vendedor::gerarOrdemDeServico(Cliente& cliente, bool isManutencao, const string& motivo, double quilometragem) {
+    // Gerar um número de ordem único (por exemplo, usando um contador estático)
+    static int numeroOrdemCounter = 1;
+    int numeroOrdem = numeroOrdemCounter++;
+    // Criar uma nova instância de OrdemServico
+    OrdemServico* ordem = new OrdemServico(&cliente, isManutencao, motivo, quilometragem, numeroOrdem);
+    // Adicionar a ordem de serviço ao cliente
+    cliente.adicionarOrdemServico(*ordem);
+    // Retornar o ponteiro para a ordem de serviço criada
     return ordem;
 }
 
@@ -44,6 +52,7 @@ void Vendedor::marcarOrdemComoAprovada(int indice) {
     if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
         ordensDeServico[static_cast<size_t>(indice)].aprovar();
         std::cout << "Ordem de serviço aprovada com sucesso!" << std::endl;
+        enviarOrdemParaMecanico(&ordensDeServico[static_cast<size_t>(indice)]);
     } else {
         std::cout << "Índice inválido." << std::endl;
     }
@@ -92,4 +101,24 @@ const Cliente& Vendedor::getCliente(int indice) const {
     } else {
         throw runtime_error("Índice de cliente inválido"); // Lança uma exceção para índice inválido
     }
+}
+
+void Vendedor::enviarOrdemParaMecanico(OrdemServico* ordem) {
+    // Verifica se o objeto 'ordem' é válido
+    if (ordem) {
+        // Envia a ordem de serviço para o Mecanicos associado ao Vendedor
+        mecanico.adicionarOrdemServico(ordem);
+        std::cout << "Ordem de serviço enviada para o mecânico." << std::endl;
+    } else {
+        std::cerr << "Erro: ordem de serviço inválida." << std::endl;
+    }
+}
+
+OrdemServico* Vendedor::getOrdemDeServico(int numeroOrdem) {
+    for (auto& ordem : ordensDeServico) {
+        if (ordem.getNumeroOrdem() == numeroOrdem) {
+            return &ordem;
+        }
+    }
+    return nullptr;
 }

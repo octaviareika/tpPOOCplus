@@ -20,9 +20,9 @@ private:
     vector<double> precosServicos;
     vector<string> pecas;
     vector<double> precosPecas;
-
+    int numeroOrdem;
 public:
-    OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem);
+    OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem, int numeroOrdem);
     ~OrdemServico();
     Cliente* getCliente() const;
     string getMotivo() const;
@@ -33,9 +33,8 @@ public:
     void adicionarServico(const string& servico, double preco);
     void adicionarPeca(const string& peca, double preco);
     bool isManutencao() const;
-
+    int getNumeroOrdem() const;
     OrdemServico& operator=(const OrdemServico& other);
-
     friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
 };
 

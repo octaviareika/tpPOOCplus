@@ -139,10 +139,9 @@ int main() {
                                 cout << "1 - Manutenção" << endl;
                                 cout << "2 - Orçamento" << endl;
                                 cin >> tipoOrdem;
-
                                 bool isManutencao = (tipoOrdem == 1);
-
-                                vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, quilometragem);
+                                OrdemServico* ordem = vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, quilometragem);
+                                vendedor.enviarOrdemParaMecanico(ordem);
                             } else {
                                 cout << "Índice de cliente inválido." << endl;
                             }
@@ -153,6 +152,8 @@ int main() {
                             int numeroOrdem;
                             cin >> numeroOrdem;
                             vendedor.marcarOrdemComoAprovada(numeroOrdem);
+                            vendedor.enviarOrdemParaMecanico(vendedor.getOrdemDeServico(numeroOrdem));
+                            
                         } else if (opcaoVendedor == 4) {
                             // Visualizar e fechar ordens de serviço executadas
                             vendedor.visualizarOrdensExecutadas();
@@ -199,6 +200,7 @@ int main() {
                             double valorPecas;
                             cin >> valorPecas;
                             mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas);
+                            mecanico.moverOrdemParaExecutadas(numeroOrdem);
                         } else if (opcaoMecanico == 3) {
                             break;  // Voltar ao menu principal
                         } else {
