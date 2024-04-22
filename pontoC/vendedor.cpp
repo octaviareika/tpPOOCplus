@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ordem_servico.hpp"
 #include "vendedor.hpp"
+#include "cliente.hpp"
 #include <vector>
 
 using namespace std;
@@ -13,27 +14,28 @@ Vendedor::Vendedor() : Funcionarios("", "") {
 }
 
 Vendedor::Vendedor(string nome, string cpf) : Funcionarios(nome, cpf) {}
-void Vendedor::setNome(string nome) {
+
+void Vendedor::setNome(const std::string& nome) {
     this->nome = nome;
 }
 
-string Vendedor::getNome() const {
+std::string Vendedor::getNome() const {
     return nome;
 }
 
-OrdemServico Vendedor::gerarOrdemDeServico(const Cliente& cliente, bool isManutencao, string motivo, double quilometragem) {
-    OrdemServico ordem(cliente, isManutencao, motivo, quilometragem);
+OrdemServico Vendedor::gerarOrdemDeServico(Cliente& cliente, bool isManutencao, const std::string& motivo, double quilometragem) {
+    OrdemServico ordem(&cliente, isManutencao, motivo, quilometragem);
     ordensDeServico.push_back(ordem);
-    cout << "Ordem de serviço gerada com sucesso!" << endl;
+    cliente.adicionarOrdemServico(ordem); 
+    std::cout << "Ordem de serviço gerada com sucesso!" << std::endl;
     return ordem;
 }
 
 void Vendedor::visualizarOrdensPendentes() {
-    cout << "Ordens de serviço de orçamento pendentes de aprovação:" << endl;
+    std::cout << "Ordens de serviço de orçamento pendentes de aprovação:" << std::endl;
     for (size_t i = 0; i < ordensDeServico.size(); i++) {
-        if (ordensDeServico[i].isManutencao() == false && !ordensDeServico[i].foiAprovada()) {
-            cout << i << ". " << ordensDeServico[i].getCliente().getNome() << " - " << ordensDeServico[i].getMotivo() << endl;
-            
+        if (!ordensDeServico[i].isManutencao() && !ordensDeServico[i].foiAprovada()) {
+            std::cout << i << ". " << ordensDeServico[i].getCliente()->getNome() << " - " << ordensDeServico[i].getMotivo() << std::endl;
         }
     }
 }
@@ -41,18 +43,17 @@ void Vendedor::visualizarOrdensPendentes() {
 void Vendedor::marcarOrdemComoAprovada(int indice) {
     if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
         ordensDeServico[static_cast<size_t>(indice)].aprovar();
-        cout << "Ordem de serviço aprovada com sucesso!" << endl;
+        std::cout << "Ordem de serviço aprovada com sucesso!" << std::endl;
     } else {
-        cout << "Índice inválido." << endl;
+        std::cout << "Índice inválido." << std::endl;
     }
 }
 
-
 void Vendedor::visualizarOrdensExecutadas() {
-    cout << "Ordens de serviço executadas:" << endl;
+    std::cout << "Ordens de serviço executadas:" << std::endl;
     for (const auto& ordem : ordensDeServico) {
         if (ordem.foiExecutada()) {
-            cout << ordem << endl; // Aqui é onde o operador << será chamado para imprimir a OrdemServico
+            std::cout << ordem << std::endl; // Chama o operador << para imprimir a OrdemServico
         }
     }
 }
@@ -60,17 +61,35 @@ void Vendedor::visualizarOrdensExecutadas() {
 void Vendedor::fecharOrdemDeServico(int indice) {
     if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
         ordensDeServico[static_cast<size_t>(indice)].fechar();
-        cout << "Ordem de serviço fechada com sucesso!" << endl;
+        std::cout << "Ordem de serviço fechada com sucesso!" << std::endl;
     } else {
-        cout << "Índice inválido." << endl;
+        std::cout << "Índice inválido." << std::endl;
     }
 }
 
-void Vendedor::cadastrarCliente(Cliente cliente) {
-    clientes.push_back(cliente);
-
+void Vendedor::cadastrarCliente(const Cliente& cliente) {
+    clientes.push_back(cliente); // Adiciona o cliente ao vetor de clientes
 }
 
-void Vendedor::cadastrarVeiculo(Veiculo veiculo, Cliente cliente) {
-    clientes.back().setVeiculo(veiculo);
+void Vendedor::cadastrarVeiculo(const Veiculo& veiculo, const Cliente& cliente) {
+    clientes.back().setVeiculo(veiculo); // Define o veículo para o último cliente adicionado
+}
+
+void Vendedor::listarClientes() const {
+    std::cout << "Lista de Clientes:" << std::endl;
+    for (const auto& cliente : clientes) {
+        std::cout << "Nome: " << cliente.getNome() << ", CPF: " << cliente.getCpf() << std::endl;
+    }
+}
+
+int Vendedor::getNumClientes() const {
+    return clientes.size();  // Retorna o número de clientes
+}
+
+const Cliente& Vendedor::getCliente(int indice) const {
+    if (indice >= 0 && static_cast<size_t>(indice) < clientes.size()) {
+        return clientes[indice]; // Retorna a referência constante para o cliente no índice fornecido
+    } else {
+        throw runtime_error("Índice de cliente inválido"); // Lança uma exceção para índice inválido
+    }
 }

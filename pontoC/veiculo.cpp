@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Veiculo::Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco) {
+Veiculo::Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco, double quilometragem) {
     this->marca = marca;
     this->modelo = modelo;
     this->placa = placa;

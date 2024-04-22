@@ -1,5 +1,6 @@
 #include <iostream>
 #include "cliente.hpp"
+#include "ordem_servico.hpp"
 #include <vector>
 using namespace std;
 Cliente::Cliente() : ordemDeServiçoAprovada(false) {
@@ -12,11 +13,11 @@ Cliente::Cliente(string nome, string cpf, string endereco, string telefone, Veic
     this->veiculo = veiculo;
 }
 
-string Cliente::getNome() {
+string Cliente::getNome() const {
     return nome;
 }
 
-string Cliente::getCpf() {
+string Cliente::getCpf() const {
     return cpf;
 }
 
@@ -58,4 +59,8 @@ bool Cliente::getAprovacao() {
 
 void Cliente::setAprovacao(bool ordemDeServicoAprovacao) {
     this->ordemDeServiçoAprovada = ordemDeServicoAprovacao;
+}
+
+void Cliente::adicionarOrdemServico(const OrdemServico& ordem) {
+    ordensServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens do cliente
 }

@@ -5,7 +5,7 @@
 #include <vector>
 #include "veiculo.hpp"
 using namespace std;
-
+class OrdemServico;
 class Cliente {
     private:
     string nome;
@@ -14,13 +14,14 @@ class Cliente {
     string telefone;
     Veiculo veiculo;
     bool ordemDeServiçoAprovada;
-
+    vector<OrdemServico> ordensServico;
 
     public:
+    void adicionarOrdemServico(const OrdemServico& ordem);
     Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo);
     Cliente();
-    string getNome();
-    string getCpf();
+    string getNome() const;
+    string getCpf() const;
     string getEndereco();
     string getTelefone();
     bool getAprovacao();

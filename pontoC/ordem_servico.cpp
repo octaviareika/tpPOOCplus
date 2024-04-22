@@ -1,10 +1,15 @@
 #include "ordem_servico.hpp"
+#include "cliente.hpp"
+#include <iostream>
 
-OrdemServico::OrdemServico(Cliente cliente, bool manutencao, string motivo, double quilometragem)
-    : cliente(cliente), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem), aprovada(false), executada(false), ismanutencao(manutencao) {}
+OrdemServico::OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem)
+    : cliente(cliente), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem),
+      aprovada(false), executada(false) {}
 
+OrdemServico::~OrdemServico() {
+}
 
-Cliente OrdemServico::getCliente() const {
+Cliente* OrdemServico::getCliente() const {
     return cliente;
 }
 
@@ -37,22 +42,42 @@ void OrdemServico::adicionarPeca(const string& peca, double preco) {
     pecas.push_back(peca);
     precosPecas.push_back(preco);
 }
+
 bool OrdemServico::isManutencao() const {
-    return ismanutencao;
+    return manutencao;
+}
+
+OrdemServico& OrdemServico::operator=(const OrdemServico& other) {
+    if (this != &other) {
+        // Liberar o cliente atual (se houver)
+        delete cliente;
+        // Clonar o cliente de 'other' (se 'other.cliente' não for nulo)
+        cliente = (other.cliente != nullptr) ? new Cliente(*other.cliente) : nullptr;
+        // Copiar outros membros
+        manutencao = other.manutencao;
+        motivo = other.motivo;
+        quilometragem = other.quilometragem;
+        aprovada = other.aprovada;
+        executada = other.executada;
+        servicos = other.servicos;
+        precosServicos = other.precosServicos;
+        pecas = other.pecas;
+        precosPecas = other.precosPecas;
+    }
+    return *this;
 }
 
 ostream& operator<<(ostream& os, const OrdemServico& ordem) {
-    os << "Cliente: " << ordem.getCliente().getNome() << endl;
-    os << "CPF: " << ordem.getCliente().getCpf() << endl;
-    os << "Endereço: " << ordem.getCliente().getEndereco() << endl;
-    os << "Telefone: " << ordem.getCliente().getTelefone() << endl;
-    os << "Veículo: " << ordem.getCliente().getVeiculo().getMarca() << " " << ordem.getCliente().getVeiculo().getModelo() << " (" << ordem.getCliente().getVeiculo().getPlaca() << ")" << endl;
-    os << "Ano: " << ordem.getCliente().getVeiculo().getAno() << endl;
-    os << "Cor: " << ordem.getCliente().getVeiculo().getCor() << endl;
-    os << "Motivo: " << ordem.getMotivo() << endl;
-    os << "Quilometragem: " << ordem.quilometragem << endl; // Ajuste aqui se necessário
-    os << "Manutenção: " << (ordem.isManutencao() ? "Sim" : "Não") << endl;
-    os << "Aprovada: " << (ordem.foiAprovada() ? "Sim" : "Não") << endl;
-    os << "Executada: " << (ordem.foiExecutada() ? "Sim" : "Não") << endl;
+    os << "Ordem de Serviço para: " << ordem.cliente->getNome() << endl;
+    os << "Motivo: " << ordem.motivo << endl;
+    os << "Quilometragem: " << ordem.quilometragem << endl;
+    os << "Serviços realizados:" << endl;
+    for (size_t i = 0; i < ordem.servicos.size(); ++i) {
+        os << "  - " << ordem.servicos[i] << " (R$ " << ordem.precosServicos[i] << ")" << endl;
+    }
+    os << "Peças utilizadas:" << endl;
+    for (size_t i = 0; i < ordem.pecas.size(); ++i) {
+        os << "  - " << ordem.pecas[i] << " (R$ " << ordem.precosPecas[i] << ")" << endl;
+    }
     return os;
 }

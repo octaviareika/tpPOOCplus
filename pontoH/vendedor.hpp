@@ -6,7 +6,6 @@
 #include "ordem_servico.hpp"
 #include "funcionarios.hpp"
 #include "cliente.hpp"
-
 using namespace std;
 
 class Vendedor : public Funcionarios {
@@ -17,16 +16,18 @@ private:
 public:
     Vendedor(string nome, string cpf);
     Vendedor(); 
-    OrdemServico gerarOrdemDeServico(const Cliente& cliente, bool isManutencao, string motivo, double quilometragem);
+    void setNome(const string& nome);
+    string getNome() const;
+    OrdemServico gerarOrdemDeServico(Cliente& cliente, bool isManutencao, const string& motivo, double quilometragem);
     void visualizarOrdensPendentes();
-    void setNome(string nome);
     void marcarOrdemComoAprovada(int indice);
     void visualizarOrdensExecutadas();
     void fecharOrdemDeServico(int indice);
-    void cadastrarCliente(const Cliente cliente);
-    void cadastrarVeiculo(Veiculo veiculo, Cliente cliente);
-    friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
-    string getNome() const;
+    void cadastrarCliente(const Cliente& cliente);
+    void cadastrarVeiculo(const Veiculo& veiculo, const Cliente& cliente);
+    void listarClientes() const;
+    int getNumClientes() const;
+    const Cliente& getCliente(int indice) const;
 };
 
 #endif

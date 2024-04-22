@@ -1,13 +1,17 @@
-// ordem_servico.hpp
 #ifndef ORDEM_SERVICO_HPP
 #define ORDEM_SERVICO_HPP
 
 #include "cliente.hpp"
+#include <vector>
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 class OrdemServico {
 private:
-    Cliente cliente;
-    bool manutencao; // true se for manutenção, false se for orçamento
+    Cliente* cliente;
+    bool manutencao;
     string motivo;
     double quilometragem;
     bool aprovada;
@@ -16,10 +20,11 @@ private:
     vector<double> precosServicos;
     vector<string> pecas;
     vector<double> precosPecas;
-    bool ismanutencao;
+
 public:
-    OrdemServico(Cliente cliente, bool manutencao, string motivo, double quilometragem);
-    Cliente getCliente() const;
+    OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem);
+    ~OrdemServico();
+    Cliente* getCliente() const;
     string getMotivo() const;
     bool foiAprovada() const;
     bool foiExecutada() const;
@@ -28,6 +33,9 @@ public:
     void adicionarServico(const string& servico, double preco);
     void adicionarPeca(const string& peca, double preco);
     bool isManutencao() const;
+
+    OrdemServico& operator=(const OrdemServico& other);
+
     friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
 };
 

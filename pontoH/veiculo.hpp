@@ -19,7 +19,7 @@ class Veiculo {
   private:
     vector<Cliente> clientes;
   public:
-    Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco);
+    Veiculo(string marca, string modelo, string placa, string cor, int ano, double preco, double quilometragem);
     Veiculo();
     string getMarca();
     string getModelo();

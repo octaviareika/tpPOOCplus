@@ -105,8 +105,11 @@ int main() {
                             cout << "Digite o preço do veículo: ";
                             double preco;
                             cin >> preco;
+                            cout << "Digite a quilometragem do veículo: ";
+                            double quilometragem;
+                            cin >> quilometragem;
                             // Criar um objeto Veiculo com os dados fornecidos
-                            Veiculo novoVeiculo(marca, modelo, placa, cor, ano, preco);
+                            Veiculo novoVeiculo(marca, modelo, placa, cor, ano, preco, quilometragem);
                             // Criar um objeto Cliente com os dados fornecidos
                             Cliente novoCliente(nome, cpf, endereco, telefone, novoVeiculo);
                             // Adicionar o cliente à lista de clientes do vendedor
@@ -114,23 +117,35 @@ int main() {
                             vendedor.cadastrarVeiculo(novoVeiculo, novoCliente);
                             cout << "Cliente e veículo cadastrados com sucesso!" << endl;
                         } else if (opcaoVendedor == 2) {
-                            cout << "Gerar ordem de serviço" << endl;
-                            cout << "Digite o motivo da ordem de serviço: ";
-                            string motivo;
-                            cin.ignore(); // Limpar o buffer do cin antes de getline
-                            getline(cin, motivo);
-                            cout << "Digite a quilometragem do veículo: ";
-                            double quilometragem;
-                            cin >> quilometragem;
-                            cout << "Escolha o tipo de ordem de serviço:" << endl;
-                            cout << "1 - Manutenção" << endl;
-                            cout << "2 - Orçamento" << endl;
-                            int tipoOrdem;
-                            cin >> tipoOrdem;
-                            // Criar uma nova ordem de serviço com base no tipo selecionado
-                            Cliente cliente; 
-                            bool isManutencao = (tipoOrdem == 1);
-                            vendedor.gerarOrdemDeServico(cliente, isManutencao, motivo, quilometragem);
+                            // Gerar ordem de serviço
+                            vendedor.listarClientes();
+                            int indiceCliente;
+                            cout << "Digite o índice do cliente para gerar a ordem de serviço: ";
+                            cin >> indiceCliente;
+                            if (indiceCliente >= 0 && indiceCliente < vendedor.getNumClientes()) {
+                                Cliente clienteSelecionado = vendedor.getCliente(indiceCliente);
+
+                                string motivo;
+                                double quilometragem;
+                                int tipoOrdem;
+
+                                cout << "Digite o motivo da ordem de serviço: ";
+                                cin >> motivo;
+
+                                cout << "Digite a quilometragem do veículo: ";
+                                cin >> quilometragem;
+
+                                cout << "Escolha o tipo de ordem de serviço:" << endl;
+                                cout << "1 - Manutenção" << endl;
+                                cout << "2 - Orçamento" << endl;
+                                cin >> tipoOrdem;
+
+                                bool isManutencao = (tipoOrdem == 1);
+
+                                vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, quilometragem);
+                            } else {
+                                cout << "Índice de cliente inválido." << endl;
+                            }
                         } else if (opcaoVendedor == 3) {
                             // Visualizar e aprovar ordens de serviço pendentes
                             vendedor.visualizarOrdensPendentes();
