@@ -32,7 +32,7 @@ void Vendedor::visualizarOrdensPendentes() {
     cout << "Ordens de serviço de orçamento pendentes de aprovação:" << endl;
     for (size_t i = 0; i < ordensDeServico.size(); i++) {
         if (ordensDeServico[i].isManutencao() == false && !ordensDeServico[i].foiAprovada()) {
-            cout << i + 1 << ". " << ordensDeServico[i].getCliente().getNome() << " - " << ordensDeServico[i].getMotivo() << endl;
+            cout << i << ". " << ordensDeServico[i].getCliente().getNome() << " - " << ordensDeServico[i].getMotivo() << endl;
             
         }
     }
