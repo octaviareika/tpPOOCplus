@@ -13,7 +13,7 @@ Veiculo::Veiculo(string marca, string modelo, string placa, string cor, int ano,
     this->cor = cor;
     this->ano = ano;
     this->preco = preco;
-    //this->quilometragem = quilometragem;
+    this->quilometragem = quilometragem;
 }
 
 Veiculo::Veiculo() {

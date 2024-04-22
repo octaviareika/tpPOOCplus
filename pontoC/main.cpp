@@ -96,6 +96,7 @@ int main() {
                 Veiculo novoVeiculo(marca, modelo, placa, cor, ano, preco);
                 // Criar um objeto Cliente com os dados fornecidos
                 Cliente novoCliente(nome, cpf, endereco, telefone, novoVeiculo);
+                
                 // Adicionar o cliente à lista de clientes do vendedor
                 vendedor.cadastrarCliente(novoCliente);
                 cout << "Cliente e veículo cadastrados com sucesso!" << endl;

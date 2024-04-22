@@ -24,9 +24,8 @@ public:
     void visualizarOrdensExecutadas();
     void fecharOrdemDeServico(int indice);
     void cadastrarCliente(const Cliente cliente);
-    void cadastrarVeiculo(const Cliente cliente);
+    void cadastrarVeiculo(Veiculo veiculo, Cliente cliente);
     friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
-    void adicionarVeiculo(Veiculo veiculo);
     string getNome() const;
 };
 

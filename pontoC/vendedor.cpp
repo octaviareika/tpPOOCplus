@@ -15,9 +15,7 @@ void Vendedor::setNome(string nome) {
     this->nome = nome;
 }
 
-void Vendedor::adicionarVeiculo(Veiculo veiculo) {
-    clientes.back().setVeiculo(veiculo);
-}
+
 string Vendedor::getNome() const {
     return nome;
 }
@@ -72,29 +70,7 @@ void Vendedor::cadastrarCliente(Cliente cliente) {
 
 }
 
-void Vendedor::cadastrarVeiculo(Cliente cliente) {
-    cout << "Cadastrando veículo para o cliente " << cliente.getNome() << "..." << endl;
-    cout << "Digite a marca do veículo: ";
-    string marca;
-    cin >> marca;
-    cout << "Digite o modelo do veículo: ";
-    string modelo;
-    cin >> modelo;
-    cout << "Digite o ano do veículo: ";
-    int ano;
-    cin >> ano;
-    cout << "Digite a placa do veículo: ";
-    string placa;
-    cin >> placa;
-    cout << "Digite a cor do veículo: ";
-    string cor;
-    cin >> cor;
-    cout << "Digite o preço do veículo: ";
-    double preco;
-    cin >> preco;
-    // Criar um objeto Veiculo com os dados fornecidos
-    Veiculo novoVeiculo(marca, modelo, placa, cor, ano, preco);
-    // Adicionar o veículo ao cliente
-    adicionarVeiculo(novoVeiculo);
+void Vendedor::cadastrarVeiculo(Veiculo veiculo, Cliente cliente) {
+    clientes.back().setVeiculo(veiculo);
     cout << "Veículo cadastrado com sucesso para o cliente " << cliente.getNome() << "!" << endl;
 }
