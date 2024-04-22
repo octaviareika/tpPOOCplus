@@ -2,7 +2,8 @@
 #define VEICULO_HPP
 
 #include <iostream>
-
+#include <vector>
+#include "cliente.hpp"
 using namespace std;
 
 class Veiculo {
