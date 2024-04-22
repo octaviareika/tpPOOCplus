@@ -2,7 +2,8 @@
 #include "cliente.hpp"
 #include <vector>
 using namespace std;
-
+Cliente::Cliente() : ordemDeServiçoAprovada(false) {
+}
 Cliente::Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo) {
     this->nome = nome;
     this->cpf = cpf;

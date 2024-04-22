@@ -9,12 +9,13 @@ using namespace std;
 /// como de seu veículo, caso não exista, e em seguida gerar uma ordem de serviço para solicitação de
 // orçamento ou manutenção
 
-Vendedor::Vendedor(string nome, string cpf) : Funcionarios(nome, cpf) {}
+Vendedor::Vendedor() : Funcionarios("", "") {
+}
 
+Vendedor::Vendedor(string nome, string cpf) : Funcionarios(nome, cpf) {}
 void Vendedor::setNome(string nome) {
     this->nome = nome;
 }
-
 
 string Vendedor::getNome() const {
     return nome;
