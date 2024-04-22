@@ -9,10 +9,11 @@ Mecanicos::Mecanicos() {
     ordemDeServico = "";
 }
 
-Mecanicos::Mecanicos(string nome, string cpf, string ordemDeServico) {
+Mecanicos::Mecanicos(string nome, string cpf, string ordemDeServico)
+    : Funcionarios(nome, cpf), ordemDeServico(ordemDeServico) {
+    this->ordemDeServico = ordemDeServico;
     this->nome = nome;
     this->cpf = cpf;
-    this->ordemDeServico = ordemDeServico;
 }
 
 // Getters e Setters
