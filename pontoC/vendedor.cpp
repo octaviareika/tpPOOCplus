@@ -56,16 +56,13 @@ void Vendedor::visualizarOrdensExecutadas() {
     std::cout << "Ordens de serviço executadas:" << std::endl;
      for (size_t i = 0; i < ordensDeServico.size(); i++) {
         if (ordensDeServico[i].foiExecutada() && !ordensDeServico[i].finalizar()) {
-            std::cout << i << ". " << ordensDeServico[i]<< std::endl; // Chama o operador << para imprimir a OrdemServico
+            std::cout << "Ordem número: "<< i << ". " << ordensDeServico[i]<< std::endl; // Chama o operador << para imprimir a OrdemServico
         }
     }
 }
-
-
 void Vendedor::cadastrarCliente(const Cliente& cliente) {
     clientes.push_back(cliente); // Adiciona o cliente ao vetor de clientes
 }
-
 void Vendedor::cadastrarVeiculo(const Veiculo& veiculo, const Cliente& cliente) {
     clientes.back().setVeiculo(veiculo); // Define o veículo para o último cliente adicionado
 }
