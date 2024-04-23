@@ -127,15 +127,10 @@ int main() {
                                 Cliente clienteSelecionado = vendedor.getCliente(indiceCliente); // Obter o cliente selecionado
 
                                 string motivo;
-                                double quilometragem;
                                 int tipoOrdem;
 
                                 cout << "Digite o motivo da ordem de serviço: ";
                                 cin >> motivo;
-
-                                cout << "Digite a quilometragem do veículo: ";
-                                cin >> quilometragem;
-
                                 cout << "Escolha o tipo de ordem de serviço:" << endl;
                                 cout << "1 - Manutenção" << endl;
                                 cout << "2 - Orçamento" << endl;
@@ -143,7 +138,7 @@ int main() {
 
                                 bool isManutencao = (tipoOrdem == 1);
 
-                                vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, quilometragem);
+                                vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, clienteSelecionado.getVeiculo().getQuilometragem());
                             } else {
                                 cout << "Índice de cliente inválido." << endl;
                             }
