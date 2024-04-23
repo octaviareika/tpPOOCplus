@@ -23,13 +23,13 @@ public:
     void visualizarOrdensPendentes();
     void marcarOrdemComoAprovada(int indice, Mecanicos& mecanico);
     void visualizarOrdensExecutadas();
-    void fecharOrdemDeServico(int indice);
     void cadastrarCliente(const Cliente& cliente);
     void cadastrarVeiculo(const Veiculo& veiculo, const Cliente& cliente);
     void listarClientes() const;
     int getNumClientes() const;
     const Cliente& getCliente(int indice) const;
-
+    void receberOrdemDeServicoVendedor(OrdemServico& ordem);
+    void fecharOrdemDeServico(int indice);
 };
 
 #endif

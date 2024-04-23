@@ -4,9 +4,9 @@
 
 OrdemServico::OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem)
     : cliente(cliente), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem),
-      aprovada(false), executada(false) {}
+      aprovada(false), executada(false), realizada(false) {}
 
-OrdemServico::~OrdemServico() {
+OrdemServico::OrdemServico() {
 }
 
 Cliente* OrdemServico::getCliente() const {
@@ -20,9 +20,14 @@ string OrdemServico::getMotivo() const {
 bool OrdemServico::foiAprovada() const {
     return aprovada;
 }
-
-bool OrdemServico::foiExecutada() const {
+bool OrdemServico::finalizar() const {
     return executada;
+}
+bool OrdemServico::foiExecutada() const {
+    return realizada;
+}
+void OrdemServico::executar() {
+    realizada = true;
 }
 
 void OrdemServico::aprovar() {
@@ -32,6 +37,7 @@ void OrdemServico::aprovar() {
 void OrdemServico::fechar() {
     executada = true;
 }
+
 
 void OrdemServico::adicionarServico(const string& servico, double preco) {
     servicos.push_back(servico);
@@ -58,6 +64,7 @@ OrdemServico& OrdemServico::operator=(const OrdemServico& other) { // Operador d
         motivo = other.motivo;
         quilometragem = other.quilometragem;
         aprovada = other.aprovada;
+        realizada = other.realizada;
         executada = other.executada;
         servicos = other.servicos;
         precosServicos = other.precosServicos;

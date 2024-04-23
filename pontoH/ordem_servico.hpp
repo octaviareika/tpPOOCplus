@@ -16,6 +16,7 @@ private:
     double quilometragem;
     bool aprovada;
     bool executada;
+    bool realizada;
     vector<string> servicos;
     vector<double> precosServicos;
     vector<string> pecas;
@@ -23,7 +24,7 @@ private:
 
 public:
     OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem);
-    ~OrdemServico();
+    OrdemServico();
     Cliente* getCliente() const;
     string getMotivo() const;
     bool foiAprovada() const;
@@ -32,10 +33,10 @@ public:
     void fechar();
     void adicionarServico(const string& servico, double preco);
     void adicionarPeca(const string& peca, double preco);
+    bool finalizar() const;
     bool isManutencao() const;
-
+    void executar();
     OrdemServico& operator=(const OrdemServico& other);
-
     friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
 };
 

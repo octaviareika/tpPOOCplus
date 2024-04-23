@@ -3,7 +3,6 @@
 #include <vector>
 #include "vendedor.hpp"
 #include "cliente.hpp"
-
 #include "mecanicos.hpp"
 #include "veiculo.hpp"
 #include "ordem_servico.hpp"
@@ -13,6 +12,7 @@ using namespace std;
 int main() {
     Vendedor vendedor;
     Mecanicos mecanico;
+    OrdemServico ordem;
     bool executando = true;
 
     while (executando) {
@@ -181,6 +181,7 @@ int main() {
                             // Visualizar ordens de serviço abertas
                             mecanico.visualizarOrdensAbertas();
                         } else if (opcaoMecanico == 2) {
+                            mecanico.visualizarOrdensAbertas();
                             // Cadastrar serviços executados e peças utilizadas
                             cout << "Digite o número da ordem de serviço que deseja atualizar: ";
                             int numeroOrdem;
@@ -199,7 +200,7 @@ int main() {
                             cout << "Informe o valor das peças: ";
                             double valorPecas;
                             cin >> valorPecas;
-                            mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas);
+                            mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas, vendedor);
                         } else if (opcaoMecanico == 3) {
                             break;  // Voltar ao menu principal
                         } else {

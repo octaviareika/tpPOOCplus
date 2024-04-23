@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 using namespace std;
-
+class Vendedor;
 class Mecanicos : public Funcionarios{
 private:
     string ordemDeServico;
@@ -29,7 +29,7 @@ public:
     void setCpf(const string& cpf);
     // Outros métodos da classe
     void visualizarOrdensAbertas() const;
-    void cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas);
+    void cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas, Vendedor& vendedor);
     void receberOrdemDeServico(OrdemServico& ordem);
     
 
