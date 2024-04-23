@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "cliente.hpp"
 #include "vendedor.hpp"
+#include "cliente.hpp"
+
 #include "mecanicos.hpp"
 #include "veiculo.hpp"
 #include "ordem_servico.hpp"
@@ -123,7 +124,7 @@ int main() {
                             cout << "Digite o índice do cliente para gerar a ordem de serviço: ";
                             cin >> indiceCliente;
                             if (indiceCliente >= 0 && indiceCliente < vendedor.getNumClientes()) {
-                                Cliente clienteSelecionado = vendedor.getCliente(indiceCliente);
+                                Cliente clienteSelecionado = vendedor.getCliente(indiceCliente); // Obter o cliente selecionado
 
                                 string motivo;
                                 double quilometragem;
@@ -152,7 +153,7 @@ int main() {
                             cout << "Digite o número da ordem de serviço que deseja aprovar: ";
                             int numeroOrdem;
                             cin >> numeroOrdem;
-                            vendedor.marcarOrdemComoAprovada(numeroOrdem);
+                            vendedor.marcarOrdemComoAprovada(numeroOrdem, mecanico);
                         } else if (opcaoVendedor == 4) {
                             // Visualizar e fechar ordens de serviço executadas
                             vendedor.visualizarOrdensExecutadas();

@@ -31,6 +31,7 @@ public:
     void visualizarOrdensAbertas() const;
     void cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas);
     void receberOrdemDeServico(OrdemServico& ordem);
+    
 
 };
 

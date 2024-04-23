@@ -24,13 +24,14 @@ std::string Vendedor::getNome() const {
 }
 
 OrdemServico Vendedor::gerarOrdemDeServico(Cliente& cliente, bool isManutencao, const std::string& motivo, double quilometragem) {
-    OrdemServico ordem(&cliente, isManutencao, motivo, quilometragem);
-    ordensDeServico.push_back(ordem);
-    cliente.adicionarOrdemServico(ordem); 
+    OrdemServico ordem(&cliente, isManutencao, motivo, quilometragem); // Cria uma nova ordem de serviço
+    ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço
+    cliente.adicionarOrdemServico(ordem);  // Adiciona a ordem de serviço ao cliente
     std::cout << "Ordem de serviço gerada com sucesso!" << std::endl;
     return ordem;
 }
 
+// ok
 void Vendedor::visualizarOrdensPendentes() {
     std::cout << "Ordens de serviço de orçamento pendentes de aprovação:" << std::endl;
     for (size_t i = 0; i < ordensDeServico.size(); i++) {
@@ -40,9 +41,10 @@ void Vendedor::visualizarOrdensPendentes() {
     }
 }
 
-void Vendedor::marcarOrdemComoAprovada(int indice, Mecanicos& mecanico) {
-    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
-        ordensDeServico[static_cast<size_t>(indice)].aprovar();
+//ok
+void Vendedor::marcarOrdemComoAprovada(int indice, Mecanicos& mecanico) { // numOrdem = indice
+    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) { // Verifica se o índice é válido
+        ordensDeServico[static_cast<size_t>(indice)].aprovar(); // Aprova a ordem de serviço 
         mecanico.receberOrdemDeServico(ordensDeServico[static_cast<size_t>(indice)]);
         std::cout << "Ordem de serviço aprovada com sucesso!" << std::endl;
     } else {

@@ -50,7 +50,7 @@ void Mecanicos::setOrdemDeServico(const string& ordemDeServico) {
 // Outros métodos da classe
 void Mecanicos::visualizarOrdensAbertas() const {
     cout << "Visualizando ordens de serviço abertas..." << endl;
-    for (const OrdemServico& ordem : ordensDeServico) {
+    for (const OrdemServico& ordem : ordensDeServico) { // ordensDeServico do mecanico
         cout << "Ordem de serviço: " << ordem.getMotivo() << endl;
     }
 }
@@ -65,7 +65,10 @@ void Mecanicos::cadastrarServicosExecutados(int numeroOrdem, const string& servi
 }
 
 void Mecanicos::receberOrdemDeServico(OrdemServico& ordem) { // vai receber ordem do vendedor
-    if (ordem.foiAprovada()) {
-        ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço do mecanico
-    }
+       // Vendedor::marcarOrdemComoAprovada(0, *this); // Aprova a ordem de serviço
+           
+        
+        if (ordem.foiAprovada()) {
+            ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço do mecanico
+        }//esse ordem de servico é do mecanico
 }

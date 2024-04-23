@@ -8,11 +8,11 @@
 #include "cliente.hpp"
 #include "mecanicos.hpp"
 using namespace std;
-
+class Mecanicos;
 class Vendedor : public Funcionarios {
 private:
-    vector<Cliente> clientes;
-    vector<OrdemServico> ordensDeServico;
+    vector<Cliente> clientes; // armazenar os clientes cadastrados 
+    vector<OrdemServico> ordensDeServico; // armazenar as ordens de serviço geradas
 
 public:
     Vendedor(string nome, string cpf);
