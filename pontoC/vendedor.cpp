@@ -52,11 +52,13 @@ void Vendedor::marcarOrdemComoAprovada(int indice, Mecanicos& mecanico) { // num
     }
 }
 
+
 void Vendedor::visualizarOrdensExecutadas() {
     std::cout << "Ordens de serviço executadas:" << std::endl;
     int index = 0;
     for (const auto& ordem : ordensDeServico) {
         if ( !ordem.finalizar() && ordem.foiExecutada() && !ordem.ordemFoiFechada()) { // executar = fechar
+            //cout << ordem.ordemFoiFechada() << endl;
             std::cout << index << ". " << ordem << std::endl; // Chama o operador << para imprimir a OrdemServico
             index++;
         }
@@ -83,6 +85,7 @@ int Vendedor::getNumClientes() const {
     return clientes.size();  // Retorna o número de clientes
 }
 
+//ok
 const Cliente& Vendedor::getCliente(int indice) const {
     if (indice >= 0 && static_cast<size_t>(indice) < clientes.size()) {
         return clientes[indice]; // Retorna a referência constante para o cliente no índice fornecido
@@ -90,16 +93,23 @@ const Cliente& Vendedor::getCliente(int indice) const {
         throw runtime_error("Índice de cliente inválido"); // Lança uma exceção para índice inválido
     }
 }
+
 void Vendedor::receberOrdemDeServicoVendedor(OrdemServico& ordem) {
     if(ordem.foiExecutada()) {
         ordensDeServico.push_back(ordem);
     }
 }
-
+// tres modos - se foi executada, se foi aprovada, se foi fechada
 // erro ta aq
 void Vendedor::fecharOrdemDeServico(int indice) {
-    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
-        ordensDeServico[static_cast<size_t>(indice)].fechar();
+    if (ordensDeServico.empty()) {
+        std::cout << "Nenhuma ordem de serviço aberta." << std::endl;
+        return;
+    }
+    cout << "\n\n";
+    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size() && !ordensDeServico[static_cast<size_t>(indice)].foiExecutada()) {
+        OrdemServico& ordem = ordensDeServico[static_cast<size_t>(indice)];
+        ordem.fechar();
         std::cout << "Ordem de serviço fechada com sucesso!" << std::endl;
     } else {
         std::cout << "Índice inválido." << std::endl;
