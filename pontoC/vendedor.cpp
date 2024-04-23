@@ -104,12 +104,13 @@ void Vendedor::receberOrdemDeServicoVendedor(OrdemServico& ordem) {
 // erro ta aq
 void Vendedor::fecharOrdemDeServico(int indice) {
     if (ordensDeServico.empty()) {
+        cout << "\n";
         std::cout << "Nenhuma ordem de serviço aberta." << std::endl;
         return;
     }
     cout << "\n\n";
+    OrdemServico& ordem = ordensDeServico[static_cast<size_t>(indice)];
     if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size() && !ordensDeServico[static_cast<size_t>(indice)].foiExecutada()) {
-        OrdemServico& ordem = ordensDeServico[static_cast<size_t>(indice)];
         ordem.fechar();
         std::cout << "Ordem de serviço fechada com sucesso!" << std::endl;
     } else {
