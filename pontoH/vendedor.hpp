@@ -6,6 +6,7 @@
 #include "ordem_servico.hpp"
 #include "funcionarios.hpp"
 #include "cliente.hpp"
+#include <stdexcept> 
 #include "mecanicos.hpp"
 using namespace std;
 class Mecanicos;
@@ -13,7 +14,6 @@ class Vendedor : public Funcionarios {
 private:
     vector<Cliente> clientes; // armazenar os clientes cadastrados 
     vector<OrdemServico> ordensDeServico; // armazenar as ordens de serviço geradas
-
 public:
     Vendedor(string nome, string cpf);
     Vendedor(); 

@@ -4,7 +4,7 @@
 
 OrdemServico::OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem)
     : cliente(cliente), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem),
-      aprovada(false), executada(false), realizada(false) {}
+      aprovada(false), finalizada(false), realizada(false) {}
 
 OrdemServico::OrdemServico() {
 }
@@ -21,7 +21,7 @@ bool OrdemServico::foiAprovada() const {
     return aprovada;
 }
 bool OrdemServico::finalizar() const {
-    return executada;
+    return finalizada;
 }
 bool OrdemServico::foiExecutada() const {
     return realizada;
@@ -35,7 +35,7 @@ void OrdemServico::aprovar() {
 }
 
 void OrdemServico::fechar() {
-    executada = true;
+    finalizada = true;
 }
 
 
@@ -65,7 +65,7 @@ OrdemServico& OrdemServico::operator=(const OrdemServico& other) { // Operador d
         quilometragem = other.quilometragem;
         aprovada = other.aprovada;
         realizada = other.realizada;
-        executada = other.executada;
+        finalizada = other.finalizada;
         servicos = other.servicos;
         precosServicos = other.precosServicos;
         pecas = other.pecas;

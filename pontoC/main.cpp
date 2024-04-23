@@ -10,8 +10,8 @@
 using namespace std;
 
 int main() {
-    Vendedor vendedor;
-    Mecanicos mecanico;
+    Vendedor vendedor("Vendedor", "123456789");
+    Mecanicos mecanico("Mecanico", "987654321");
     OrdemServico ordem;
     bool executando = true;
 

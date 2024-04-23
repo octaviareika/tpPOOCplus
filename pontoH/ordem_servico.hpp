@@ -15,7 +15,7 @@ private:
     string motivo;
     double quilometragem;
     bool aprovada;
-    bool executada;
+    bool finalizada;
     bool realizada;
     vector<string> servicos;
     vector<double> precosServicos;

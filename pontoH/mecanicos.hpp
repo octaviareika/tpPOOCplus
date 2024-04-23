@@ -11,18 +11,15 @@ using namespace std;
 class Vendedor;
 class Mecanicos : public Funcionarios{
 private:
-    string ordemDeServico;
     vector<OrdemServico> ordensDeServico;
 
 public:
     // Construtores
     Mecanicos();
-    Mecanicos(string nome, string cpf, string ordemDeServico);
+    Mecanicos(string nome, string cpf);
 
     // Getters e Setters
-    
-    string getOrdemDeServico() const;
-    void setOrdemDeServico(const string& ordemDeServico);
+
     string getNome() const;
     void setNome(const string& nome);
     string getCpf() const;

@@ -3,7 +3,7 @@
 #include "vendedor.hpp"
 #include "cliente.hpp"
 #include <vector>
-
+#include <stdexcept> 
 using namespace std;
 
 // Ao chegar à oficina o cliente será atendido por um vendedor que irá providenciar o seu cadastro bem
@@ -54,11 +54,9 @@ void Vendedor::marcarOrdemComoAprovada(int indice, Mecanicos& mecanico) { // num
 
 void Vendedor::visualizarOrdensExecutadas() {
     std::cout << "Ordens de serviço executadas:" << std::endl;
-    int index = 0;
-    for (const auto& ordem : ordensDeServico) {
-        if (ordem.foiExecutada() && !ordem.finalizar()) {
-            std::cout << index << ". " << ordem << std::endl; // Chama o operador << para imprimir a OrdemServico
-            index++;
+     for (size_t i = 0; i < ordensDeServico.size(); i++) {
+        if (ordensDeServico[i].foiExecutada() && !ordensDeServico[i].finalizar()) {
+            std::cout << i << ". " << ordensDeServico[i]<< std::endl; // Chama o operador << para imprimir a OrdemServico
         }
     }
 }
@@ -96,7 +94,7 @@ void Vendedor::receberOrdemDeServicoVendedor(OrdemServico& ordem) {
     }
 }
 
-void Vendedor::fecharOrdemDeServico(int indice) {
+   void Vendedor::fecharOrdemDeServico(int indice) {
     if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
         ordensDeServico[static_cast<size_t>(indice)].fechar();
         std::cout << "Ordem de serviço fechada com sucesso!" << std::endl;
@@ -104,3 +102,4 @@ void Vendedor::fecharOrdemDeServico(int indice) {
         std::cout << "Índice inválido." << std::endl;
     }
 }
+

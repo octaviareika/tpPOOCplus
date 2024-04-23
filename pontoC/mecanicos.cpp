@@ -12,12 +12,10 @@
 Mecanicos::Mecanicos() : Funcionarios("", "") {
     nome = "";
     cpf = "";
-    ordemDeServico = "";
 }
 
-Mecanicos::Mecanicos(string nome, string cpf, string ordemDeServico)
-    : Funcionarios(nome, cpf), ordemDeServico(ordemDeServico) {
-    this->ordemDeServico = ordemDeServico;
+Mecanicos::Mecanicos(string nome, string cpf)
+    : Funcionarios(nome, cpf){
     this->nome = nome;
     this->cpf = cpf;
 }
@@ -39,13 +37,6 @@ void Mecanicos::setCpf(const string& cpf) {
     this->cpf = cpf;
 }
 
-string Mecanicos::getOrdemDeServico() const {
-    return ordemDeServico;
-}
-
-void Mecanicos::setOrdemDeServico(const string& ordemDeServico) {
-    this->ordemDeServico = ordemDeServico;
-}
 
 // Outros métodos da classe
 void Mecanicos::visualizarOrdensAbertas() const {
