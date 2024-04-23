@@ -54,12 +54,13 @@ void Vendedor::marcarOrdemComoAprovada(int indice, Mecanicos& mecanico) { // num
 
 
 void Vendedor::visualizarOrdensExecutadas() {
+    cout << "\n\n";
     std::cout << "Ordens de serviço executadas:" << std::endl;
     int index = 0;
     for (const auto& ordem : ordensDeServico) {
         if ( !ordem.finalizar() && ordem.foiExecutada() && !ordem.ordemFoiFechada()) { // executar = fechar
             //cout << ordem.ordemFoiFechada() << endl;
-            std::cout << index << ". " << ordem << std::endl; // Chama o operador << para imprimir a OrdemServico
+            std::cout << index << ". " << ordem << "\n" << std::endl; // Chama o operador << para imprimir a OrdemServico
             index++;
         }
     }
