@@ -56,7 +56,7 @@ void Vendedor::visualizarOrdensExecutadas() {
     std::cout << "Ordens de serviço executadas:" << std::endl;
     int index = 0;
     for (const auto& ordem : ordensDeServico) {
-        if (ordem.foiExecutada() && !ordem.finalizar()) {
+        if ( !ordem.finalizar() && ordem.foiExecutada() && !ordem.ordemFoiFechada()) { // executar = fechar
             std::cout << index << ". " << ordem << std::endl; // Chama o operador << para imprimir a OrdemServico
             index++;
         }
@@ -96,6 +96,7 @@ void Vendedor::receberOrdemDeServicoVendedor(OrdemServico& ordem) {
     }
 }
 
+// erro ta aq
 void Vendedor::fecharOrdemDeServico(int indice) {
     if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
         ordensDeServico[static_cast<size_t>(indice)].fechar();

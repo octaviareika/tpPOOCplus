@@ -38,6 +38,7 @@ public:
     void executar();
     OrdemServico& operator=(const OrdemServico& other);
     friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
+    bool ordemFoiFechada() const;
 };
 
 #endif

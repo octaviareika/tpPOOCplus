@@ -82,7 +82,6 @@ void Mecanicos::cadastrarServicosExecutados(int numeroOrdem, const string& servi
 }
 
 void Mecanicos::receberOrdemDeServico(OrdemServico& ordem) { // vai receber ordem do vendedor
-       // Vendedor::marcarOrdemComoAprovada(0, *this); // Aprova a ordem de serviço
         if (ordem.foiAprovada()) {
             ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço do mecanico
         }//esse ordem de servico é do mecanico

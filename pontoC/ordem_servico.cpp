@@ -88,3 +88,7 @@ ostream& operator<<(ostream& os, const OrdemServico& ordem) {
     }
     return os;
 }
+
+bool OrdemServico:: ordemFoiFechada() const {
+    return executada;
+}
