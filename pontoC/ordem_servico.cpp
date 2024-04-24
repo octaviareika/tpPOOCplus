@@ -4,9 +4,13 @@
 
 OrdemServico::OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem, int numeroOrdem)
     : cliente(cliente), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem),
+<<<<<<< HEAD
       aprovada(false), executada(false), numeroOrdem(numeroOrdem) {}
+=======
+      aprovada(false), finalizada(false), realizada(false) {}
+>>>>>>> testezin
 
-OrdemServico::~OrdemServico() {
+OrdemServico::OrdemServico() {
 }
 
 Cliente* OrdemServico::getCliente() const {
@@ -20,9 +24,14 @@ string OrdemServico::getMotivo() const {
 bool OrdemServico::foiAprovada() const {
     return aprovada;
 }
-
+bool OrdemServico::finalizar() const {
+    return finalizada;
+}
 bool OrdemServico::foiExecutada() const {
-    return executada;
+    return realizada;
+}
+void OrdemServico::executar() {
+    realizada = true;
 }
 
 void OrdemServico::aprovar() {
@@ -30,8 +39,9 @@ void OrdemServico::aprovar() {
 }
 
 void OrdemServico::fechar() {
-    executada = true;
+    finalizada = true;
 }
+
 
 void OrdemServico::adicionarServico(const string& servico, double preco) {
     servicos.push_back(servico);
@@ -47,7 +57,7 @@ bool OrdemServico::isManutencao() const {
     return manutencao;
 }
 
-OrdemServico& OrdemServico::operator=(const OrdemServico& other) {
+OrdemServico& OrdemServico::operator=(const OrdemServico& other) { // Operador de atribuição
     if (this != &other) {
         // Liberar o cliente atual (se houver)
         delete cliente;
@@ -58,7 +68,8 @@ OrdemServico& OrdemServico::operator=(const OrdemServico& other) {
         motivo = other.motivo;
         quilometragem = other.quilometragem;
         aprovada = other.aprovada;
-        executada = other.executada;
+        realizada = other.realizada;
+        finalizada = other.finalizada;
         servicos = other.servicos;
         precosServicos = other.precosServicos;
         pecas = other.pecas;

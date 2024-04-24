@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "cliente.hpp"
 #include "vendedor.hpp"
+#include "cliente.hpp"
 #include "mecanicos.hpp"
 #include "veiculo.hpp"
 #include "ordem_servico.hpp"
@@ -10,8 +10,9 @@
 using namespace std;
 
 int main() {
-    Vendedor vendedor;
-    Mecanicos mecanico;
+    Vendedor vendedor("Vendedor", "123456789");
+    Mecanicos mecanico("Mecanico", "987654321");
+    OrdemServico ordem;
     bool executando = true;
 
     while (executando) {
@@ -123,24 +124,24 @@ int main() {
                             cout << "Digite o índice do cliente para gerar a ordem de serviço: ";
                             cin >> indiceCliente;
                             if (indiceCliente >= 0 && indiceCliente < vendedor.getNumClientes()) {
-                                Cliente clienteSelecionado = vendedor.getCliente(indiceCliente);
+                                Cliente clienteSelecionado = vendedor.getCliente(indiceCliente); // Obter o cliente selecionado
 
                                 string motivo;
-                                double quilometragem;
                                 int tipoOrdem;
 
                                 cout << "Digite o motivo da ordem de serviço: ";
                                 cin >> motivo;
-
-                                cout << "Digite a quilometragem do veículo: ";
-                                cin >> quilometragem;
-
                                 cout << "Escolha o tipo de ordem de serviço:" << endl;
                                 cout << "1 - Manutenção" << endl;
                                 cout << "2 - Orçamento" << endl;
                                 cin >> tipoOrdem;
                                 bool isManutencao = (tipoOrdem == 1);
+<<<<<<< HEAD
                                 vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, quilometragem);
+=======
+
+                                vendedor.gerarOrdemDeServico(clienteSelecionado, mecanico, isManutencao, motivo, clienteSelecionado.getVeiculo().getQuilometragem());
+>>>>>>> testezin
                             } else {
                                 cout << "Índice de cliente inválido." << endl;
                             }
@@ -150,9 +151,13 @@ int main() {
                             cout << "Digite o número da ordem de serviço que deseja aprovar: ";
                             int numeroOrdem;
                             cin >> numeroOrdem;
+<<<<<<< HEAD
                             vendedor.marcarOrdemComoAprovada(numeroOrdem);
                             vendedor.enviarOrdemParaMecanico(vendedor.getOrdemDeServico(numeroOrdem));
                             
+=======
+                            vendedor.marcarOrdemComoAprovada(numeroOrdem, mecanico);
+>>>>>>> testezin
                         } else if (opcaoVendedor == 4) {
                             // Visualizar e fechar ordens de serviço executadas
                             vendedor.visualizarOrdensExecutadas();
@@ -180,6 +185,7 @@ int main() {
                             // Visualizar ordens de serviço abertas
                             mecanico.visualizarOrdensAbertas();
                         } else if (opcaoMecanico == 2) {
+                            mecanico.visualizarOrdensAbertas();
                             // Cadastrar serviços executados e peças utilizadas
                             cout << "Digite o número da ordem de serviço que deseja atualizar: ";
                             int numeroOrdem;
@@ -198,8 +204,12 @@ int main() {
                             cout << "Informe o valor das peças: ";
                             double valorPecas;
                             cin >> valorPecas;
+<<<<<<< HEAD
                             mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas);
                             mecanico.moverOrdemParaExecutadas(numeroOrdem);
+=======
+                            mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas, vendedor);
+>>>>>>> testezin
                         } else if (opcaoMecanico == 3) {
                             break;  // Voltar ao menu principal
                         } else {

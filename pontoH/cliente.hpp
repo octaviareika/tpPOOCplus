@@ -23,8 +23,8 @@ class Cliente {
     Cliente();
     string getNome() const;
     string getCpf() const;
-    string getEndereco();
-    string getTelefone();
+    string getEndereco() const;
+    string getTelefone() const;
     bool getAprovacao();
     void setNome(string nome);
     void setCpf(string cpf);
