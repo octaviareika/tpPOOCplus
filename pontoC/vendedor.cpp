@@ -36,7 +36,7 @@ void Vendedor::visualizarOrdensPendentes() {
     std::cout << "Ordens de serviço de orçamento pendentes de aprovação: " << std::endl;
     for (size_t i = 0; i < ordensDeServico.size(); i++) {
         if (!ordensDeServico[i].isManutencao() && !ordensDeServico[i].foiAprovada() && !ordensDeServico[i].foiExecutada() && !ordensDeServico[i].finalizar()) {
-            std::cout << i << ". " << ordensDeServico[i].getCliente()->getNome() << " - " << ordensDeServico[i].getMotivo() << std::endl;
+            std::cout << i << ": " << ordensDeServico[i].getCliente()->getNome() << " - " << ordensDeServico[i].getMotivo() << std::endl;
         }
     }
 }
@@ -56,7 +56,7 @@ void Vendedor::visualizarOrdensExecutadas() {
     std::cout << "Ordens de serviço executadas:" << std::endl;
      for (size_t i = 0; i < ordensDeServico.size(); i++) {
         if (ordensDeServico[i].foiExecutada() && !ordensDeServico[i].finalizar()) {
-            std::cout << "Ordem número: "<< i << ". " << ordensDeServico[i]<< std::endl; // Chama o operador << para imprimir a OrdemServico
+            std::cout << "Ordem número: "<< i-1 << ". " << ordensDeServico[i]<< std::endl; // Chama o operador << para imprimir a OrdemServico
         }
     }
 }
@@ -92,8 +92,8 @@ void Vendedor::receberOrdemDeServicoVendedor(OrdemServico& ordem) {
 }
 
    void Vendedor::fecharOrdemDeServico(int indice) {
-    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) {
-        ordensDeServico[static_cast<size_t>(indice)].fechar();
+    if (indice >= 0 && static_cast<size_t>(indice)+1 < ordensDeServico.size()) {
+        ordensDeServico[static_cast<size_t>(indice)+1].fechar();
         std::cout << "Ordem de serviço fechada com sucesso!" << std::endl;
     } else {
         std::cout << "Índice inválido." << std::endl;
