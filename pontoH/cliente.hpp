@@ -17,7 +17,6 @@ class Cliente {
     vector<OrdemServico> ordensServico;
 
     public:
-    vector<OrdemServico>& getOrdensServico();
     void adicionarOrdemServico(const OrdemServico& ordem);
     Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo);
     Cliente();
@@ -33,6 +32,9 @@ class Cliente {
     void setVeiculo(Veiculo veiculo);
     void setAprovacao(bool ordemDeServicoAprovacao);
     Veiculo getVeiculo();
+
+    
+
 };
 
 #endif
