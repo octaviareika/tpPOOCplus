@@ -138,7 +138,7 @@ int main() {
 
                                 bool isManutencao = (tipoOrdem == 1);
 
-                                vendedor.gerarOrdemDeServico(clienteSelecionado, isManutencao, motivo, clienteSelecionado.getVeiculo().getQuilometragem());
+                                vendedor.gerarOrdemDeServico(clienteSelecionado, mecanico, isManutencao, motivo, clienteSelecionado.getVeiculo().getQuilometragem());
                             } else {
                                 cout << "Índice de cliente inválido." << endl;
                             }

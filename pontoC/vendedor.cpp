@@ -23,11 +23,15 @@ std::string Vendedor::getNome() const {
     return nome;
 }
 
-OrdemServico Vendedor::gerarOrdemDeServico(Cliente& cliente, bool isManutencao, const std::string& motivo, double quilometragem) {
+OrdemServico Vendedor::gerarOrdemDeServico(Cliente& cliente, Mecanicos& mecanico, bool isManutencao, const std::string& motivo, double quilometragem) {
     OrdemServico ordem(&cliente, isManutencao, motivo, quilometragem); // Cria uma nova ordem de serviço
     ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço
     cliente.adicionarOrdemServico(ordem);  // Adiciona a ordem de serviço ao cliente
     std::cout << "Ordem de serviço gerada com sucesso!" << std::endl;
+    if (isManutencao) {
+        ordem.aprovar(); // Aprova a ordem de serviço automaticamente se for manutenção
+        mecanico.receberOrdemDeServico(ordem);
+    }
     return ordem;
 }
 

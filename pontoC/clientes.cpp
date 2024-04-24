@@ -21,11 +21,11 @@ string Cliente::getCpf() const {
     return cpf;
 }
 
-string Cliente::getEndereco() {
+string Cliente::getEndereco() const {
     return endereco;
 }
 
-string Cliente::getTelefone() {
+string Cliente::getTelefone() const {
     return telefone;
 }
 
