@@ -24,14 +24,14 @@ class Cliente {
     string getCpf() const;
     string getEndereco() const;
     string getTelefone() const;
-    bool getAprovacao();
+    bool getAprovacao() const;
     void setNome(string nome);
     void setCpf(string cpf);
     void setEndereco(string endereco);
     void setTelefone(string telefone);
     void setVeiculo(Veiculo veiculo);
     void setAprovacao(bool ordemDeServicoAprovacao);
-    Veiculo getVeiculo();
+    Veiculo getVeiculo() const;
 
     
 

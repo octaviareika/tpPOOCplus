@@ -10,6 +10,7 @@
 #include "mecanicos.hpp"
 using namespace std;
 class Mecanicos;
+class Cliente;
 class Vendedor : public Funcionarios {
 private:
     vector<Cliente> clientes; // armazenar os clientes cadastrados 
@@ -19,7 +20,7 @@ public:
     Vendedor(); 
     void setNome(const string& nome);
     string getNome() const;
-    OrdemServico gerarOrdemDeServico(Cliente& cliente, Mecanicos& mecanico, bool isManutencao, const string& motivo, double quilometragem);
+    OrdemServico gerarOrdemDeServico(Cliente* cliente, Mecanicos& mecanico, bool isManutencao, const string& motivo, double quilometragem);
     void visualizarOrdensPendentes();
     void marcarOrdemComoAprovada(int indice, Mecanicos& mecanico);
     void visualizarOrdensExecutadas();

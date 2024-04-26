@@ -55,26 +55,42 @@ void Mecanicos::visualizarOrdensAbertas() const {
 }
 
 //ok
-void Mecanicos::cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas, Vendedor& vendedor) {
-    if (numeroOrdem >= 0 && static_cast<size_t>(numeroOrdem) < ordensDeServico.size()) {
-    cout << "Serviços executados cadastrados com sucesso para a ordem de serviço " << numeroOrdem << endl;
-    cout << "Serviços realizados: " << servicosRealizados << endl;
-    cout << "Valor dos serviços: " << valorServicos << endl;
-    cout << "Peças utilizadas: " << pecasUtilizadas << endl;
-    cout << "Valor das peças: " << valorPecas << endl;
-    // Adiciona os serviços executados à ordem de serviço correspondente
-    ordensDeServico[numeroOrdem].adicionarServico(servicosRealizados, valorServicos);
-    ordensDeServico[numeroOrdem].adicionarPeca(pecasUtilizadas, valorPecas);
-    ordensDeServico[numeroOrdem].executar();
-    vendedor.receberOrdemDeServicoVendedor(ordensDeServico[numeroOrdem]);
+void Mecanicos::cadastrarServicosExecutados(OrdemServico& ordem, Cliente* cliente, Mecanicos* mecanico, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas, Vendedor* vendedor) {
+    if (ordem.isValid()) {
+        cout << "Serviços executados cadastrados com sucesso para a ordem de serviço " << ordem.getNumero() << endl;
+        cout << "Serviços realizados: " << servicosRealizados << endl;
+        cout << "Valor dos serviços: " << valorServicos << endl;
+        cout << "Peças utilizadas: " << pecasUtilizadas << endl;
+        cout << "Valor das peças: " << valorPecas << endl;
+        // Adiciona os serviços executados à ordem de serviço correspondente
+        ordem.adicionarServico(servicosRealizados, valorServicos);
+        ordem.adicionarPeca(pecasUtilizadas, valorPecas);
+        ordem.executar();
+        vendedor->receberOrdemDeServicoVendedor(ordem);
     } else {
         cout << "Número de ordem inválido." << endl;
     }
 }
 
-void Mecanicos::receberOrdemDeServico(OrdemServico& ordem) { // vai receber ordem do vendedor
+
+
+
+void Mecanicos::receberOrdemDeServico(OrdemServico& ordem, Mecanicos& mecanico) { // vai receber ordem do vendedor
        // Vendedor::marcarOrdemComoAprovada(0, *this); // Aprova a ordem de serviço
-        if (ordem.foiAprovada()) {
+        if (ordem.foiAprovada() && ordem.getMecanico() == mecanico.getNome()){
             ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço do mecanico
         }//esse ordem de servico é do mecanico
 }
+
+OrdemServico Mecanicos::getOrdemServico(int numeroOrdem, Mecanicos& mecanico) {
+    for (size_t i = 0; i < ordensDeServico.size(); ++i) {
+        if (ordensDeServico[i].getNumero() == numeroOrdem && ordensDeServico[i].getMecanico() == mecanico.getNome()){
+            return ordensDeServico[i];
+        }
+    }
+    // Se a ordem de serviço não for encontrada ou não pertencer ao mecânico, retorna uma ordem de serviço inválida
+    return OrdemServico();
+}
+
+
+

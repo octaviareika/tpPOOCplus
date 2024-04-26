@@ -10,11 +10,19 @@
 using namespace std;
 
 int main() {
-    Vendedor vendedor("Vendedor", "123456789");
-    Mecanicos mecanico("Mecanico", "987654321");
+     vector<Vendedor> vendedores = {
+        Vendedor("Vendedor 1", "123"),
+        Vendedor("Vendedor 2", "321"),
+    };
+
+    // Declarando e inicializando os mecânicos
+    vector<Mecanicos> mecanicos = {
+        Mecanicos("Mecanico 1", "456"),
+        Mecanicos("Mecanico 2", "789"),
+    };
     OrdemServico ordem;
     bool executando = true;
-
+    Vendedor* vendedor = nullptr;
     while (executando) {
         cout << "Tela de login do sistema de oficina" << endl;
         cout << "1 - Login" << endl;
@@ -22,7 +30,6 @@ int main() {
         cout << "Digite a opção desejada: ";
         int opcao;
         cin >> opcao;
-
         switch (opcao) {
             case 1: {
                 cout << "Digite o seu login: ";
@@ -31,7 +38,6 @@ int main() {
                 cout << "Digite a sua senha: ";
                 string senha;
                 cin >> senha;
-
                 if (login == "Admin" && senha == "Admin") {
                     cout << "Bem vindo administrador" << endl;
                     while (true) {
@@ -41,29 +47,47 @@ int main() {
                         cout << "Digite a opção desejada: ";
                         int opcaoAdmin;
                         cin >> opcaoAdmin;
-
                         if (opcaoAdmin == 1) {
-                            // Editar dados de vendedores
-                            cout << "Digite o novo nome do vendedor: ";
-                            string novoNome;
-                            cin >> novoNome;
-                            vendedor.setNome(novoNome); 
-                            cout << "Dados do vendedor atualizados com sucesso!" << endl;
+                            cout << "Selecione o vendedor a ser editado (pelo número): ";
+                            std::vector<Vendedor>::size_type indiceVendedor;
+                            cin >> indiceVendedor;
+                            if (indiceVendedor >= 1 && indiceVendedor <= vendedores.size()) {
+                                cout << "Novo nome de usuário para " << vendedores[indiceVendedor-1].getNome() << ": ";
+                                string novoNomeUsuario;
+                                cin >> novoNomeUsuario;
+                                vendedores[indiceVendedor-1].setNome(novoNomeUsuario);
+                                cout << "Dados do vendedor atualizados com sucesso!" << endl;
+                            } else {
+                                cout << "Opção inválida" << endl;
+                            }
                         } else if (opcaoAdmin == 2) {
-                            // Editar dados de mecânicos
-                            cout << "Digite o novo nome do mecânico: ";
-                            string novoNome;
-                            cin >> novoNome;
-                            mecanico.setNome(novoNome);  
-                            cout << "Dados do mecânico atualizados com sucesso!" << endl;
+                           cout << "Selecione o mecânico a ser editado (pelo número): ";
+                            std::vector<Mecanicos>::size_type indiceMecanico;
+                            cin >> indiceMecanico;
+                            if (indiceMecanico >= 1 && indiceMecanico <= mecanicos.size()) {
+                                cout << "Novo nome de usuário para " << mecanicos[indiceMecanico-1].getNome() << ": ";
+                                string novoNomeUsuario;
+                                cin >> novoNomeUsuario;
+                                mecanicos[indiceMecanico-1].setNome(novoNomeUsuario);
+                                cout << "Dados do mecânico atualizados com sucesso!" << endl;
+                            } else {
+                                cout << "Opção inválida" << endl;
+                            }
                         } else if (opcaoAdmin == 3) {
                             break;  // Voltar ao menu principal
                         } else {
                             cout << "Opção inválida" << endl;
+                            }
                         }
+                    } else if (login == "Vendedor" && senha == "Vendedor") {
+                    cout << "Qual vendedor você é?" << endl;
+                    for (size_t i = 0; i < vendedores.size(); ++i) {
+                        cout << i+1 << ". " << vendedores[i].getNome() << endl;
                     }
-                } else if (login == "Vendedor" && senha == "Vendedor") {
-                    cout << "Bem vindo vendedor" << endl;
+                    cout << "Digite o número correspondente ao seu nome: ";
+                    int indiceVendedor;
+                    cin >> indiceVendedor;
+                    vendedor = &vendedores[indiceVendedor-1];
                     while (true) {
                         cout << "1 - Cadastrar cliente e veículo" << endl;
                         cout << "2 - Gerar ordem de serviço" << endl;
@@ -114,48 +138,58 @@ int main() {
                             // Criar um objeto Cliente com os dados fornecidos
                             Cliente novoCliente(nome, cpf, endereco, telefone, novoVeiculo);
                             // Adicionar o cliente à lista de clientes do vendedor
-                            vendedor.cadastrarCliente(novoCliente);
-                            vendedor.cadastrarVeiculo(novoVeiculo, novoCliente);
+                            vendedor->cadastrarCliente(novoCliente);
+                            vendedor->cadastrarVeiculo(novoVeiculo, novoCliente);
                             cout << "Cliente e veículo cadastrados com sucesso!" << endl;
                         } else if (opcaoVendedor == 2) {
                             // Gerar ordem de serviço
-                            vendedor.listarClientes();
+                            vendedor->listarClientes();
                             int indiceCliente;
                             cout << "Digite o índice do cliente para gerar a ordem de serviço: ";
                             cin >> indiceCliente;
-                            if (indiceCliente >= 0 && indiceCliente < vendedor.getNumClientes()) {
-                                Cliente clienteSelecionado = vendedor.getCliente(indiceCliente); // Obter o cliente selecionado
-
+                            if (indiceCliente >= 0 && indiceCliente < vendedor->getNumClientes()) {
+                                Cliente clienteSelecionado = vendedor->getCliente(indiceCliente); // Obter o cliente selecionado
                                 string motivo;
                                 int tipoOrdem;
-
                                 cout << "Digite o motivo da ordem de serviço: ";
                                 cin >> motivo;
                                 cout << "Escolha o tipo de ordem de serviço:" << endl;
                                 cout << "1 - Manutenção" << endl;
                                 cout << "2 - Orçamento" << endl;
                                 cin >> tipoOrdem;
-
+                                cout << "Escolha o mecânico responsável:" << endl;
+                                for (size_t i = 0; i < mecanicos.size(); ++i) {
+                                    cout << i+1 << ". " << mecanicos[i].getNome() << endl;
+                                }
+                                int indiceMecanico;
+                                cin >> indiceMecanico;
+                                Mecanicos& mecanico = mecanicos[indiceMecanico-1];
                                 bool isManutencao = (tipoOrdem == 1);
 
-                                vendedor.gerarOrdemDeServico(clienteSelecionado, mecanico, isManutencao, motivo, clienteSelecionado.getVeiculo().getQuilometragem());
+                                vendedor->gerarOrdemDeServico(&clienteSelecionado, mecanico, isManutencao, motivo, clienteSelecionado.getVeiculo().getQuilometragem());
                             } else {
                                 cout << "Índice de cliente inválido." << endl;
                             }
                         } else if (opcaoVendedor == 3) {
-                            // Visualizar e aprovar ordens de serviço pendentes
-                            vendedor.visualizarOrdensPendentes();
+                            vendedor->visualizarOrdensPendentes();
                             cout << "Digite o número da ordem de serviço que deseja aprovar: ";
                             int numeroOrdem;
                             cin >> numeroOrdem;
-                            vendedor.marcarOrdemComoAprovada(numeroOrdem, mecanico);
+                            cout << "Escolha o mecânico responsável:" << endl;
+                            for (size_t i = 0; i < mecanicos.size(); ++i) {
+                                cout << i+1 << ". " << mecanicos[i].getNome() << endl;
+                            }
+                            int indiceMecanico;
+                            cin >> indiceMecanico;
+                            Mecanicos& mecanico = mecanicos[indiceMecanico-1];
+                            vendedor->marcarOrdemComoAprovada(numeroOrdem, mecanico);
                         } else if (opcaoVendedor == 4) {
                             // Visualizar e fechar ordens de serviço executadas
-                            vendedor.visualizarOrdensExecutadas();
+                            vendedor->visualizarOrdensExecutadas();
                             cout << "Digite o número da ordem de serviço que deseja fechar: ";
                             int numeroOrdem;
                             cin >> numeroOrdem;
-                            vendedor.fecharOrdemDeServico(numeroOrdem);
+                            vendedor->fecharOrdemDeServico(numeroOrdem);
                         } else if (opcaoVendedor == 5) {
                             break;  // Voltar ao menu principal
                         } else {
@@ -163,6 +197,14 @@ int main() {
                         }
                     }
                 } else if (login == "Mecanico" && senha == "Mecanico") {
+                    cout << "Qual mecânico você é?" << endl;
+                    for (size_t i = 0; i < mecanicos.size(); ++i) {
+                        cout << i+1 << ". " << mecanicos[i].getNome() << endl;
+                    }
+                    cout << "Digite o número correspondente ao seu nome: ";
+                    int indiceMecanico;
+                    cin >> indiceMecanico;
+                    Mecanicos& mecanico = mecanicos[indiceMecanico-1];
                     cout << "Bem vindo mecânico" << endl;
                     while (true) {
                         cout << "1 - Visualizar ordens de serviço abertas" << endl;
@@ -177,10 +219,10 @@ int main() {
                             mecanico.visualizarOrdensAbertas();
                         } else if (opcaoMecanico == 2) {
                             mecanico.visualizarOrdensAbertas();
-                            // Cadastrar serviços executados e peças utilizadas
                             cout << "Digite o número da ordem de serviço que deseja atualizar: ";
                             int numeroOrdem;
                             cin >> numeroOrdem;
+                            OrdemServico ordemServicoSelecionada = mecanico.getOrdemServico(numeroOrdem, mecanico);
                             cout << "Descreva os serviços realizados: ";
                             string servicosRealizados;
                             cin.ignore();  // Limpar buffer do getline
@@ -195,29 +237,32 @@ int main() {
                             cout << "Informe o valor das peças: ";
                             double valorPecas;
                             cin >> valorPecas;
-                            mecanico.cadastrarServicosExecutados(numeroOrdem, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas, vendedor);
-                        } else if (opcaoMecanico == 3) {
-                            break;  // Voltar ao menu principal
+                            if (vendedor != nullptr) {
+                            mecanico.cadastrarServicosExecutados(ordemServicoSelecionada, ordemServicoSelecionada.getCliente(), &mecanico, servicosRealizados, valorServicos, pecasUtilizadas, valorPecas, vendedor);
+                            }else{
+                                cout << "Vendedor não encontrado" << endl;
+                            }
+                                } else if (opcaoMecanico == 3) {
+                                    break;  // Voltar ao menu principal
+                                } else {
+                                    cout << "Opção inválida" << endl;
+                                }
+                            }
                         } else {
-                            cout << "Opção inválida" << endl;
+                            cout << "Login ou senha inválidos" << endl;
                         }
+                        break;
+            }
+                    case 2: {
+                        executando = false;  // Encerrar o programa
+                        cout << "Saindo do sistema" << endl;
+                        break;
                     }
-                } else {
-                    cout << "Login ou senha inválidos" << endl;
-                }
-                break;
-            }
-            case 2: {
-                executando = false;  // Encerrar o programa
-                cout << "Saindo do sistema" << endl;
-                break;
-            }
-            default: {
-                cout << "Opção inválida" << endl;
-                break;
+                    default: {
+                        cout << "Opção inválida" << endl;
+                        break;
+                                }
             }
         }
+            return 0;
     }
-
-    return 0;
-}

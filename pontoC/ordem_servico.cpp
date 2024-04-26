@@ -1,16 +1,29 @@
 #include "ordem_servico.hpp"
 #include "cliente.hpp"
+#include "mecanicos.hpp"
 #include <iostream>
+#include <stdexcept> // Para std::invalid_argument
 
-OrdemServico::OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem)
-    : cliente(cliente), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem),
+OrdemServico::OrdemServico(Cliente* cliente, Mecanicos* mecanico, bool manutencao, std::string motivo, double quilometragem, int numero)
+    : cliente(cliente), mecanico(mecanico), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem), numero(numero),
+      aprovada(false), finalizada(false), realizada(false) {
+   if (numero < 0) {
+    throw std::invalid_argument("Número de ordem inválido.");
+   }   
+}
+
+
+OrdemServico::OrdemServico() 
+    : cliente(nullptr), mecanico(nullptr), manutencao(false), motivo(""), quilometragem(0), numero(0),
       aprovada(false), finalizada(false), realizada(false) {}
 
-OrdemServico::OrdemServico() {
-}
 
 Cliente* OrdemServico::getCliente() const {
     return cliente;
+}
+
+int OrdemServico::getNumero() const {
+    return numero;
 }
 
 string OrdemServico::getMotivo() const {
@@ -20,12 +33,15 @@ string OrdemServico::getMotivo() const {
 bool OrdemServico::foiAprovada() const {
     return aprovada;
 }
+
 bool OrdemServico::finalizar() const {
     return finalizada;
 }
+
 bool OrdemServico::foiExecutada() const {
     return realizada;
 }
+
 void OrdemServico::executar() {
     realizada = true;
 }
@@ -37,7 +53,6 @@ void OrdemServico::aprovar() {
 void OrdemServico::fechar() {
     finalizada = true;
 }
-
 
 void OrdemServico::adicionarServico(const string& servico, double preco) {
     servicos.push_back(servico);
@@ -52,6 +67,40 @@ void OrdemServico::adicionarPeca(const string& peca, double preco) {
 bool OrdemServico::isManutencao() const {
     return manutencao;
 }
+
+bool OrdemServico::isValid() const {
+    return numero >= 0; 
+}
+
+void OrdemServico::setCliente(Cliente* cliente) {
+    this->cliente = cliente;
+}
+
+void OrdemServico::setMecanico(Mecanicos* mecanico) {
+    this->mecanico = mecanico;
+}
+
+
+
+void OrdemServico::setNumero(int numero) {
+    if (numero < 0) {
+        throw std::invalid_argument("Número de ordem inválido.");
+    }
+    this->numero = numero;
+}
+// Verificação de ponteiros antes do acesso
+string OrdemServico::getMecanico() const {
+    if (mecanico != nullptr) {
+        return mecanico->getNome();
+    } else {
+        return "Mecânico não atribuído";
+    }
+}
+
+
+
+
+
 
 OrdemServico& OrdemServico::operator=(const OrdemServico& other) { // Operador de atribuição
     if (this != &other) {
@@ -75,7 +124,7 @@ OrdemServico& OrdemServico::operator=(const OrdemServico& other) { // Operador d
 }
 
 ostream& operator<<(ostream& os, const OrdemServico& ordem) {
-    os << "Ordem de Serviço para: " << ordem.cliente->getNome() << endl;
+    os << "Ordem de Serviço para: " << ordem.getCliente()->getNome() << endl;
     os << "Motivo: " << ordem.motivo << endl;
     os << "Quilometragem: " << ordem.quilometragem << endl;
     os << "Serviços realizados:" << endl;

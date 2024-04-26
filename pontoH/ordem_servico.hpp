@@ -3,17 +3,20 @@
 
 #include "cliente.hpp"
 #include <vector>
+#include <mecanicos.hpp>
 #include <string>
 #include <iostream>
-
+class Mecanicos;
 using namespace std;
 
 class OrdemServico {
 private:
     Cliente* cliente;
+    Mecanicos* mecanico;
     bool manutencao;
     string motivo;
     double quilometragem;
+    int numero;
     bool aprovada;
     bool finalizada;
     bool realizada;
@@ -23,7 +26,7 @@ private:
     vector<double> precosPecas;
 
 public:
-    OrdemServico(Cliente* cliente, bool manutencao, string motivo, double quilometragem);
+    OrdemServico(Cliente* cliente, Mecanicos* mecanico, bool manutencao, string motivo, double quilometragem,int numero);
     OrdemServico();
     Cliente* getCliente() const;
     string getMotivo() const;
@@ -36,6 +39,12 @@ public:
     bool finalizar() const;
     bool isManutencao() const;
     void executar();
+    int getNumero() const;
+    bool isValid() const;
+    void setCliente(Cliente* cliente);
+    void setMecanico(Mecanicos* mecanico);
+    string getMecanico() const;;
+    void setNumero(int numero);
     OrdemServico& operator=(const OrdemServico& other);
     friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
 };

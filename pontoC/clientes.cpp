@@ -49,11 +49,11 @@ void Cliente::setVeiculo(Veiculo veiculo) {
     this->veiculo = veiculo;
 }
 
-Veiculo Cliente::getVeiculo() {
+Veiculo Cliente::getVeiculo() const {
     return veiculo;
 }
 
-bool Cliente::getAprovacao() {
+bool Cliente::getAprovacao() const{
     return ordemDeServiçoAprovada;
 }
 

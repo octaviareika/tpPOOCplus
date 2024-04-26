@@ -26,8 +26,9 @@ public:
     void setCpf(const string& cpf);
     // Outros métodos da classe
     void visualizarOrdensAbertas() const;
-    void cadastrarServicosExecutados(int numeroOrdem, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas, Vendedor& vendedor);
-    void receberOrdemDeServico(OrdemServico& ordem);
+    void cadastrarServicosExecutados(OrdemServico& ordem, Cliente* cliente, Mecanicos* mecanico, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas, Vendedor* vendedor);
+    void receberOrdemDeServico(OrdemServico& ordem, Mecanicos& mecanico);
+    OrdemServico getOrdemServico(int numeroOrdem, Mecanicos& mecanico);
     
 
 };
