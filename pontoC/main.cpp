@@ -13,12 +13,14 @@ int main() {
      vector<Vendedor> vendedores = {
         Vendedor("Vendedor 1", "123"),
         Vendedor("Vendedor 2", "321"),
+        Vendedor("Vendedor 3", "654")
     };
 
     // Declarando e inicializando os mecânicos
     vector<Mecanicos> mecanicos = {
         Mecanicos("Mecanico 1", "456"),
         Mecanicos("Mecanico 2", "789"),
+        Mecanicos("Mecanico 3", "987")
     };
     OrdemServico ordem;
     bool executando = true;
