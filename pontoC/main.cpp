@@ -17,46 +17,57 @@ public:
 
 void Administrador::editarDados(std::vector<Vendedor>& vendedores, std::vector<Mecanico>& mecanicos) {
     int opcao;
-    std::cout << "1. Editar Vendedores\n2. Editar Mecânicos\nEscolha uma opção: ";
+    std::cout << "1. Editar Vendedores\n2. Editar Mecânicos\n3. Sair\nEscolha uma opção: ";
     std::cin >> opcao;
-    if (opcao == 1) {
-        for (size_t i = 0; i < vendedores.size(); ++i) {
-            std::cout << i + 1 << ". " << vendedores[i].getNome() << std::endl;
+
+    switch (opcao) {
+        case 1: {
+            // Editar Vendedores
+            for (size_t i = 0; i < vendedores.size(); ++i) {
+                std::cout << i + 1 << ". " << vendedores[i].getNome() << std::endl;
+            }
+            std::cout << "Escolha um vendedor para editar: ";
+            int indice;
+            std::cin >> indice;
+            if (indice > 0 && static_cast<size_t>(indice) <= vendedores.size()) {
+                std::string novoNome, novaSenha;
+                std::cout << "Novo nome: ";
+                std::cin >> novoNome;
+                std::cout << "Nova senha: ";
+                std::cin >> novaSenha;
+                vendedores[indice - 1].setNome(novoNome);
+                vendedores[indice - 1].setSenha(novaSenha);
+            } else {
+                std::cout << "Vendedor inválido.\n";
+            }
+            break;
         }
-        std::cout << "Escolha um vendedor para editar: ";
-        int indice;
-        std::cin >> indice;
-        if (size_t (indice) > 0 && size_t (indice) <= vendedores.size()) {
-            std::string novoNome, novaSenha;
-            std::cout << "Novo nome: ";
-            std::cin >> novoNome;
-            std::cout << "Nova senha: ";
-            std::cin >> novaSenha;
-            vendedores[indice - 1].setNome(novoNome);
-            vendedores[indice - 1].setSenha(novaSenha);
-        } else {
-            std::cout << "Vendedor inválido.\n";
+        case 2: {
+            // Editar Mecânicos
+            for (size_t i = 0; i < mecanicos.size(); ++i) {
+                std::cout << i + 1 << ". " << mecanicos[i].getNome() << std::endl;
+            }
+            std::cout << "Escolha um mecânico para editar: ";
+            int indice;
+            std::cin >> indice;
+            if (indice > 0 && static_cast<size_t>(indice) <= mecanicos.size()) {
+                std::string novoNome, novaSenha;
+                std::cout << "Novo nome: ";
+                std::cin >> novoNome;
+                std::cout << "Nova senha: ";
+                std::cin >> novaSenha;
+                mecanicos[indice - 1].setNome(novoNome);
+                mecanicos[indice - 1].setSenha(novaSenha);
+            } else {
+                std::cout << "Mecânico inválido.\n";
+            }
+            break;
         }
-    } else if (opcao == 2) {
-        for (size_t i = 0; i < mecanicos.size(); ++i) {
-            std::cout << i + 1 << ". " << mecanicos[i].getNome() << std::endl;
-        }
-        std::cout << "Escolha um mecânico para editar: ";
-        int indice;
-        std::cin >> indice;
-        if (size_t (indice) > 0 && size_t (indice) <= mecanicos.size()) {
-            std::string novoNome, novaSenha;
-            std::cout << "Novo nome: ";
-            std::cin >> novoNome;
-            std::cout << "Nova senha: ";
-            std::cin >> novaSenha;
-            mecanicos[indice - 1].setNome(novoNome);
-            mecanicos[indice - 1].setSenha(novaSenha);
-        } else {
-            std::cout << "Mecânico inválido.\n";
-        }
-    } else {
-        std::cout << "Opção inválida.\n";
+        case 3:
+            std::cout << "Saindo...\n";
+            break;
+        default:
+            std::cout << "Opção inválida.\n";
     }
 }
 
@@ -92,21 +103,21 @@ Funcionario* login(std::vector<Administrador>& administradores, std::vector<Vend
 void menuAdministrador(Administrador* admin, std::vector<Vendedor>& vendedores, std::vector<Mecanico>& mecanicos) {
     int opcao;
     do {
-        std::cout << "1. Editar dados de Vendedores\n2. Editar dados de Mecânicos\n3. Sair\nEscolha uma opção: ";
+        std::cout << "1. Editar dados de Vendedores ou Mecânicos\n2. Sair\nEscolha uma opção: ";
         std::cin >> opcao;
         switch (opcao) {
             case 1:
-            case 2:
                 admin->editarDados(vendedores, mecanicos);
                 break;
-            case 3:
+            case 2:
                 std::cout << "Saindo...\n";
                 break;
             default:
                 std::cout << "Opção inválida.\n";
         }
-    } while (opcao != 3);
+    } while (opcao != 2);
 }
+
 
 void menuVendedor(Vendedor* vendedor, std::vector<Mecanico>& mecanicos) {
     int opcao;
