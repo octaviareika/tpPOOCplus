@@ -1,112 +1,77 @@
-#include <iostream>
-#include "ordem_servico.hpp"
 #include "vendedor.hpp"
-#include "cliente.hpp"
-#include <vector>
-#include <stdexcept> 
-using namespace std;
+#include <iostream>
 
-// Ao chegar à oficina o cliente será atendido por um vendedor que irá providenciar o seu cadastro bem
-/// como de seu veículo, caso não exista, e em seguida gerar uma ordem de serviço para solicitação de
-// orçamento ou manutenção
+Vendedor::Vendedor(const std::string& nome, const std::string& senha) : Funcionario(nome, senha) {}
 
-Vendedor::Vendedor() : Funcionarios("", "") {
+void Vendedor::cadastrarCliente(const Cliente& cliente) {
+    clientes.push_back(cliente);
 }
 
-Vendedor::Vendedor(string nome, string cpf) : Funcionarios(nome, cpf) {}
-
-void Vendedor::setNome(const std::string& nome) {
-    this->nome = nome;
+void Vendedor::cadastrarVeiculo(Veiculo& veiculo, Cliente& cliente) {
+    cliente.adicionarVeiculo(&veiculo);
 }
 
-std::string Vendedor::getNome() const {
-    return nome;
+void Vendedor::gerarOrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool isManutencao, const std::string& motivo, double quilometragem) {
+    OrdemDeServico ordem(cliente, mecanico, isManutencao, motivo, quilometragem);
+    ordensDeServico.push_back(ordem);
 }
 
-OrdemServico Vendedor::gerarOrdemDeServico(Cliente* cliente, Mecanicos& mecanico, bool isManutencao, const std::string& motivo, double quilometragem) {
-    int numero = ordensDeServico.size();
-    OrdemServico ordem(cliente, &mecanico, isManutencao, motivo, quilometragem, numero); // Cria uma nova ordem de serviço
-    ordem.setNumero(ordensDeServico.size()); // Define o número da ordem de serviço
-    ordem.setCliente(cliente); // Define o cliente da ordem de serviço
-    ordem.setMecanico(&mecanico); // Define o mecânico da ordem de serviço
-    ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço
-    cliente->adicionarOrdemServico(ordem);  // Adiciona a ordem de serviço ao cliente
-    std::cout << "Ordem de serviço gerada com sucesso!" << std::endl;
-    if (isManutencao) {
-        ordem.aprovar(); // Aprova a ordem de serviço automaticamente se for manutenção
-        mecanico.receberOrdemDeServico(ordem, mecanico);
-    }
-    return ordem;
-}
-
-
-// ok
 void Vendedor::visualizarOrdensPendentes() {
-    std::cout << "Ordens de serviço de orçamento pendentes de aprovação: " << std::endl;
-    for (size_t i = 0; i < ordensDeServico.size(); i++) {
-        if (!ordensDeServico[i].isManutencao() && !ordensDeServico[i].foiAprovada() && !ordensDeServico[i].foiExecutada() && !ordensDeServico[i].finalizar()) {
-            std::cout << i << ": " << ordensDeServico[i].getCliente()->getNome() << " - " << ordensDeServico[i].getMotivo() << std::endl;
+    for (size_t i = 0; i < ordensDeServico.size(); ++i) {
+        if (!ordensDeServico[i].aprovada) {
+            std::cout << i + 1 << ". ";
+            ordensDeServico[i].imprimir();
         }
+
     }
 }
 
-//ok
-void Vendedor::marcarOrdemComoAprovada(int indice, Mecanicos& mecanico) { // numOrdem = indice
-    if (indice >= 0 && static_cast<size_t>(indice) < ordensDeServico.size()) { // Verifica se o índice é válido
-        ordensDeServico[static_cast<size_t>(indice)].aprovar(); // Aprova a ordem de serviço 
-        mecanico.receberOrdemDeServico(ordensDeServico[static_cast<size_t>(indice)], mecanico);
-        std::cout << "Ordem de serviço aprovada com sucesso!" << std::endl;
+void Vendedor::marcarOrdemComoAprovada(int indice, Mecanico& mecanico) {
+    if (size_t (indice) > 0 && size_t(indice) <= ordensDeServico.size()) {
+        ordensDeServico[indice - 1].aprovar();
+        mecanico.adicionarOrdem(ordensDeServico[indice - 1]);
     } else {
-        std::cout << "Índice inválido." << std::endl;
+        std::cout << "Ordem de serviço inválida.\n";
     }
 }
 
 void Vendedor::visualizarOrdensExecutadas() {
-    std::cout << "Ordens de serviço executadas:" << std::endl;
-     for (size_t i = 0; i < ordensDeServico.size(); i++) {
-        if (ordensDeServico[i].foiExecutada() && !ordensDeServico[i].finalizar()) {
-            std::cout << "Ordem número: "<< i-1 << ". " << ordensDeServico[i]<< std::endl; // Chama o operador << para imprimir a OrdemServico
+    for (size_t i = 0; i < ordensDeServico.size(); ++i) {
+        if (ordensDeServico[i].executada && !ordensDeServico[i].fechada) {
+            std::cout << i + 1 << ". ";
+            ordensDeServico[i].imprimir();
         }
     }
 }
 
-void Vendedor::cadastrarCliente(const Cliente& cliente) {
-    clientes.push_back(cliente); // Adiciona o cliente ao vetor de clientes
-}
-void Vendedor::cadastrarVeiculo(const Veiculo& veiculo, const Cliente& cliente) {
-    clientes.back().setVeiculo(veiculo); // Define o veículo para o último cliente adicionado
+void Vendedor::fecharOrdemDeServico(int indice) {
+    if (size_t (indice) > 0 && size_t(indice) <= ordensDeServico.size()) {
+        ordensDeServico[indice - 1].fechar();
+    } else {
+        std::cout << "Ordem de serviço inválida.\n";
+    }
 }
 
-void Vendedor::listarClientes() const {
-    cout << "Lista de Clientes:" << endl;
-    for (size_t i = 0; i < clientes.size(); i++) {
-        cout << "Índice: " << i << ", Nome: " << clientes[i].getNome() << ", CPF: " << clientes[i].getCpf() << endl;
+void Vendedor::listarClientes() {
+    for (size_t i = 0; i < clientes.size(); ++i) {
+        std::cout << i + 1 << ". " << clientes[i].getNome() << std::endl;
     }
+}
+
+Cliente& Vendedor::getCliente(int indice) {
+    return clientes[indice];
 }
 
 int Vendedor::getNumClientes() const {
-    return clientes.size();  // Retorna o número de clientes
+    return clientes.size();
 }
 
-const Cliente& Vendedor::getCliente(int indice) const {
-    if (indice >= 0 && static_cast<size_t>(indice) < clientes.size()) {
-        return clientes[indice]; // Retorna a referência constante para o cliente no índice fornecido
-    } else {
-        throw runtime_error("Índice de cliente inválido"); // Lança uma exceção para índice inválido
-    }
+void Vendedor::setNome(const std::string& novoNome) {
+    nome = novoNome;
 }
-void Vendedor::receberOrdemDeServicoVendedor(OrdemServico& ordem) {
-    if (ordem.isValid() && ordem.foiExecutada()) {
-        ordensDeServico.push_back(ordem);
-    }
+void Vendedor::setSenha(const std::string& novaSenha) {
+    senha = novaSenha;
 }
-
-
-   void Vendedor::fecharOrdemDeServico(int indice) {
-    if (indice >= 0 && static_cast<size_t>(indice)+1 < ordensDeServico.size()) {
-        ordensDeServico[static_cast<size_t>(indice)+1].fechar();
-        std::cout << "Ordem de serviço fechada com sucesso!" << std::endl;
-    } else {
-        std::cout << "Índice inválido." << std::endl;
-    }
+const std::vector<OrdemDeServico>& Vendedor::getOrdensServico() const {
+    return ordensDeServico;
 }

@@ -1,139 +1,76 @@
 #include "ordem_servico.hpp"
-#include "cliente.hpp"
-#include "mecanicos.hpp"
 #include <iostream>
-#include <stdexcept> // Para std::invalid_argument
 
-OrdemServico::OrdemServico(Cliente* cliente, Mecanicos* mecanico, bool manutencao, std::string motivo, double quilometragem, int numero)
-    : cliente(cliente), mecanico(mecanico), manutencao(manutencao), motivo(motivo), quilometragem(quilometragem), numero(numero),
-      aprovada(false), finalizada(false), realizada(false) {
-   if (numero < 0) {
-    throw std::invalid_argument("Número de ordem inválido.");
-   }   
+OrdemDeServico::OrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool isManutencao, const std::string& motivo, double quilometragem)
+    : cliente(cliente), mecanico(&mecanico), isManutencao(isManutencao), motivo(motivo), quilometragem(quilometragem), aprovada(false), executada(false), fechada(false) {}
+
+void OrdemDeServico::imprimir() const {
+    std::cout << "Cliente: " << cliente->getNome() << "\nMecânico: " << mecanico->getNome() << "\nMotivo: " << motivo << "\nQuilometragem: " << quilometragem << "\nAprovada: " << (aprovada ? "Sim" : "Não") << "\nExecutada: " << (executada ? "Sim" : "Não") << "\nFechada: " << (fechada ? "Sim" : "Não") << std::endl;
+    std::cout << "Serviços:\n";
+    for (const auto& servico : servicos) {
+        std::cout << "  - " << servico.first << ": R$" << servico.second << std::endl;
+    }
+    std::cout << "Peças:\n";
+    for (const auto& peca : pecas) {
+        std::cout << "  - " << peca.first << ": R$" << peca.second << std::endl;
+    }
 }
 
-
-OrdemServico::OrdemServico() 
-    : cliente(nullptr), mecanico(nullptr), manutencao(false), motivo(""), quilometragem(0), numero(0),
-      aprovada(false), finalizada(false), realizada(false) {}
-
-
-Cliente* OrdemServico::getCliente() const {
-    return cliente;
-}
-
-int OrdemServico::getNumero() const {
-    return numero;
-}
-
-string OrdemServico::getMotivo() const {
-    return motivo;
-}
-
-bool OrdemServico::foiAprovada() const {
-    return aprovada;
-}
-
-bool OrdemServico::finalizar() const {
-    return finalizada;
-}
-
-bool OrdemServico::foiExecutada() const {
-    return realizada;
-}
-
-void OrdemServico::executar() {
-    realizada = true;
-}
-
-void OrdemServico::aprovar() {
+void OrdemDeServico::aprovar() {
     aprovada = true;
 }
 
-void OrdemServico::fechar() {
-    finalizada = true;
-}
-
-void OrdemServico::adicionarServico(const string& servico, double preco) {
-    servicos.push_back(servico);
-    precosServicos.push_back(preco);
-}
-
-void OrdemServico::adicionarPeca(const string& peca, double preco) {
-    pecas.push_back(peca);
-    precosPecas.push_back(preco);
-}
-
-bool OrdemServico::isManutencao() const {
-    return manutencao;
-}
-
-bool OrdemServico::isValid() const {
-    return numero >= 0; 
-}
-
-void OrdemServico::setCliente(Cliente* cliente) {
-    this->cliente = cliente;
-}
-
-void OrdemServico::setMecanico(Mecanicos* mecanico) {
-    this->mecanico = mecanico;
-}
-
-
-
-void OrdemServico::setNumero(int numero) {
-    if (numero < 0) {
-        throw std::invalid_argument("Número de ordem inválido.");
-    }
-    this->numero = numero;
-}
-// Verificação de ponteiros antes do acesso
-string OrdemServico::getMecanico() const {
-    if (mecanico != nullptr) {
-        return mecanico->getNome();
+void OrdemDeServico::executar() {
+    if (aprovada) {
+        executada = true;
+        std::string descricao;
+        double preco;
+        int opcao;
+        do {
+            std::cout << "1. Adicionar serviço\n2. Adicionar peça\n3. Concluir execução\nEscolha uma opção: ";
+            std::cin >> opcao;
+            switch (opcao) {
+                case 1:
+                    std::cout << "Descrição do serviço: ";
+                    std::cin.ignore();
+                    std::getline(std::cin, descricao);
+                    std::cout << "Preço do serviço: ";
+                    std::cin >> preco;
+                    adicionarServico(descricao, preco);
+                    break;
+                case 2:
+                    std::cout << "Descrição da peça: ";
+                    std::cin.ignore();
+                    std::getline(std::cin, descricao);
+                    std::cout << "Preço da peça: ";
+                    std::cin >> preco;
+                    adicionarPeca(descricao, preco);
+                    break;
+                case 3:
+                    std::cout << "Execução concluída.\n";
+                    break;
+                default:
+                    std::cout << "Opção inválida.\n";
+            }
+        } while (opcao != 3);
     } else {
-        return "Mecânico não atribuído";
+        std::cout << "A ordem de serviço não foi aprovada ainda.\n";
     }
 }
 
-
-
-
-
-
-OrdemServico& OrdemServico::operator=(const OrdemServico& other) { // Operador de atribuição
-    if (this != &other) {
-        // Liberar o cliente atual (se houver)
-        delete cliente;
-        // Clonar o cliente de 'other' (se 'other.cliente' não for nulo)
-        cliente = (other.cliente != nullptr) ? new Cliente(*other.cliente) : nullptr;
-        // Copiar outros membros
-        manutencao = other.manutencao;
-        motivo = other.motivo;
-        quilometragem = other.quilometragem;
-        aprovada = other.aprovada;
-        realizada = other.realizada;
-        finalizada = other.finalizada;
-        servicos = other.servicos;
-        precosServicos = other.precosServicos;
-        pecas = other.pecas;
-        precosPecas = other.precosPecas;
+void OrdemDeServico::fechar() {
+    if (executada) {
+        fechada = true;
+        std::cout << "Ordem de serviço fechada.\n";
+    } else {
+        std::cout << "A ordem de serviço não foi executada ainda.\n";
     }
-    return *this;
 }
 
-ostream& operator<<(ostream& os, const OrdemServico& ordem) {
-    os << "Ordem de Serviço para: " << ordem.getCliente()->getNome() << endl;
-    os << "Motivo: " << ordem.motivo << endl;
-    os << "Quilometragem: " << ordem.quilometragem << endl;
-    os << "Serviços realizados:" << endl;
-    for (size_t i = 0; i < ordem.servicos.size(); ++i) {
-        os << "  - " << ordem.servicos[i] << " (R$ " << ordem.precosServicos[i] << ")" << endl;
-    }
-    os << "Peças utilizadas:" << endl;
-    for (size_t i = 0; i < ordem.pecas.size(); ++i) {
-        os << "  - " << ordem.pecas[i] << " (R$ " << ordem.precosPecas[i] << ")" << endl;
-    }
-    return os;
+void OrdemDeServico::adicionarServico(const std::string& descricao, double preco) {
+    servicos.emplace_back(descricao, preco);
+}
+
+void OrdemDeServico::adicionarPeca(const std::string& descricao, double preco) {
+    pecas.emplace_back(descricao, preco);
 }

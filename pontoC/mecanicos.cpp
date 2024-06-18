@@ -1,96 +1,33 @@
-#include <iostream>
 #include "mecanicos.hpp"
-#include "ordem_servico.hpp"
-#include "vendedor.hpp"
+#include <iostream>
 
-// O mecânico deverá visualizar as ordens de serviço abertas e escolher uma para realizar o serviço, caso
-// seja orçamento o serviço não deverá ser executado antes de prévia autorização por parte do cliente,
-// para tal o vendedor deverá visualizar as ordens de serviço aguardando aprovação do cliente, contatar o
-//cliente e verificar se o mesmo aprova
+Mecanico::Mecanico(const std::string& nome, const std::string& senha) : Funcionario(nome, senha) {}
 
-// Construtores
-Mecanicos::Mecanicos() : Funcionarios("", "") {
-    nome = "";
-    cpf = "";
+void Mecanico::adicionarOrdem(OrdemDeServico& ordem) {
+    ordensDeServico.push_back(&ordem);
 }
 
-Mecanicos::Mecanicos(string nome, string cpf)
-    : Funcionarios(nome, cpf){
-    this->nome = nome;
-    this->cpf = cpf;
-}
-
-// Getters e Setters
-string Mecanicos::getNome() const {
-    return nome;
-}
-
-void Mecanicos::setNome(const string& nome) {
-    this->nome = nome;
-}
-
-string Mecanicos::getCpf() const {
-    return cpf;
-}
-
-void Mecanicos::setCpf(const string& cpf) {
-    this->cpf = cpf;
-}
-
-
-// Outros métodos da classe
-void Mecanicos::visualizarOrdensAbertas() const {
-    cout << "Visualizando ordens de serviço abertas..." << endl;
-    if(ordensDeServico.empty()) {
-        cout << "Nenhuma ordem de serviço aberta." << endl;
-        return;
-    }
-    int index = 0;
-    for (const OrdemServico& ordem : ordensDeServico) { // ordensDeServico do mecanico
-        if(!ordem.finalizar() && !ordem.foiExecutada()){
-        cout << "Ordem de serviço " << index << ": " << ordem.getMotivo() << endl;
-        index++;
-    }
-    }
-}
-
-//ok
-void Mecanicos::cadastrarServicosExecutados(OrdemServico& ordem, Cliente* cliente, Mecanicos* mecanico, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas, Vendedor* vendedor) {
-    if (ordem.isValid()) {
-        cout << "Serviços executados cadastrados com sucesso para a ordem de serviço " << ordem.getNumero() << endl;
-        cout << "Serviços realizados: " << servicosRealizados << endl;
-        cout << "Valor dos serviços: " << valorServicos << endl;
-        cout << "Peças utilizadas: " << pecasUtilizadas << endl;
-        cout << "Valor das peças: " << valorPecas << endl;
-        // Adiciona os serviços executados à ordem de serviço correspondente
-        ordem.adicionarServico(servicosRealizados, valorServicos);
-        ordem.adicionarPeca(pecasUtilizadas, valorPecas);
-        ordem.executar();
-        vendedor->receberOrdemDeServicoVendedor(ordem);
-    } else {
-        cout << "Número de ordem inválido." << endl;
-    }
-}
-
-
-
-
-void Mecanicos::receberOrdemDeServico(OrdemServico& ordem, Mecanicos& mecanico) { // vai receber ordem do vendedor
-       // Vendedor::marcarOrdemComoAprovada(0, *this); // Aprova a ordem de serviço
-        if (ordem.foiAprovada() && ordem.getMecanico() == mecanico.getNome()){
-            ordensDeServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens de serviço do mecanico
-        }//esse ordem de servico é do mecanico
-}
-
-OrdemServico Mecanicos::getOrdemServico(int numeroOrdem, Mecanicos& mecanico) {
+void Mecanico::visualizarOrdensAprovadas() {
     for (size_t i = 0; i < ordensDeServico.size(); ++i) {
-        if (ordensDeServico[i].getNumero() == numeroOrdem && ordensDeServico[i].getMecanico() == mecanico.getNome()){
-            return ordensDeServico[i];
+        if (ordensDeServico[i]->aprovada && !ordensDeServico[i]->executada) {
+            std::cout << i + 1 << ". ";
+            ordensDeServico[i]->imprimir();
         }
     }
-    // Se a ordem de serviço não for encontrada ou não pertencer ao mecânico, retorna uma ordem de serviço inválida
-    return OrdemServico();
 }
 
+void Mecanico::executarOrdemDeServico(int indice) {
+    if (size_t (indice) > 0 && size_t(indice) <= ordensDeServico.size()) {
+        ordensDeServico[indice - 1]->executar();
+    } else {
+        std::cout << "Ordem de serviço inválida.\n";
+    }
+}
 
+void Mecanico::setNome(const std::string& novoNome) {
+    nome = novoNome;
+}
 
+void Mecanico::setSenha(const std::string& novaSenha) {
+    senha = novaSenha;
+}

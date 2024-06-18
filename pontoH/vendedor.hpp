@@ -1,36 +1,33 @@
 #ifndef VENDEDOR_HPP
 #define VENDEDOR_HPP
 
-#include <iostream>
-#include <vector>
-#include "ordem_servico.hpp"
 #include "funcionarios.hpp"
 #include "cliente.hpp"
-#include <stdexcept> 
 #include "mecanicos.hpp"
-using namespace std;
-class Mecanicos;
-class Cliente;
-class Vendedor : public Funcionarios {
+#include "ordem_servico.hpp"
+#include <vector>
+
+class Vendedor : public Funcionario {
 private:
-    vector<Cliente> clientes; // armazenar os clientes cadastrados 
-    vector<OrdemServico> ordensDeServico; // armazenar as ordens de serviço geradas
+    std::vector<Cliente> clientes;
+    std::vector<OrdemDeServico> ordensDeServico;
+
 public:
-    Vendedor(string nome, string cpf);
-    Vendedor(); 
-    void setNome(const string& nome);
-    string getNome() const;
-    OrdemServico gerarOrdemDeServico(Cliente* cliente, Mecanicos& mecanico, bool isManutencao, const string& motivo, double quilometragem);
-    void visualizarOrdensPendentes();
-    void marcarOrdemComoAprovada(int indice, Mecanicos& mecanico);
-    void visualizarOrdensExecutadas();
+    Vendedor(const std::string& nome, const std::string& senha);
+    
     void cadastrarCliente(const Cliente& cliente);
-    void cadastrarVeiculo(const Veiculo& veiculo, const Cliente& cliente);
-    void listarClientes() const;
-    int getNumClientes() const;
-    const Cliente& getCliente(int indice) const;
-    void receberOrdemDeServicoVendedor(OrdemServico& ordem);
+    void cadastrarVeiculo(Veiculo& veiculo, Cliente& cliente);
+    void gerarOrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool isManutencao, const std::string& motivo, double quilometragem);
+    void visualizarOrdensPendentes();
+    void marcarOrdemComoAprovada(int indice, Mecanico& mecanico);
+    void visualizarOrdensExecutadas();
     void fecharOrdemDeServico(int indice);
+    void listarClientes();
+    void setNome(const std::string& novoNome);
+    void setSenha(const std::string& novaSenha);
+    Cliente& getCliente(int indice);
+    int getNumClientes() const;
+    const std::vector<OrdemDeServico>& getOrdensServico() const;
 };
 
 #endif

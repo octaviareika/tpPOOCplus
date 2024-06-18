@@ -2,51 +2,35 @@
 #define ORDEM_SERVICO_HPP
 
 #include "cliente.hpp"
-#include <vector>
-#include <mecanicos.hpp>
+#include "mecanicos.hpp"
 #include <string>
-#include <iostream>
-class Mecanicos;
-using namespace std;
-
-class OrdemServico {
+#include <vector>
+class Cliente;
+class Mecanico;
+class OrdemDeServico {
 private:
     Cliente* cliente;
-    Mecanicos* mecanico;
-    bool manutencao;
-    string motivo;
+    Mecanico* mecanico;
+    bool isManutencao;
+    std::string motivo;
     double quilometragem;
-    int numero;
     bool aprovada;
-    bool finalizada;
-    bool realizada;
-    vector<string> servicos;
-    vector<double> precosServicos;
-    vector<string> pecas;
-    vector<double> precosPecas;
+    bool executada;
+    bool fechada;
+    std::vector<std::pair<std::string, double>> servicos;
+    std::vector<std::pair<std::string, double>> pecas;
 
 public:
-    OrdemServico(Cliente* cliente, Mecanicos* mecanico, bool manutencao, string motivo, double quilometragem,int numero);
-    OrdemServico();
-    Cliente* getCliente() const;
-    string getMotivo() const;
-    bool foiAprovada() const;
-    bool foiExecutada() const;
+    OrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool isManutencao, const std::string& motivo, double quilometragem);
+    void imprimir() const;
     void aprovar();
-    void fechar();
-    void adicionarServico(const string& servico, double preco);
-    void adicionarPeca(const string& peca, double preco);
-    bool finalizar() const;
-    bool isManutencao() const;
     void executar();
-    int getNumero() const;
-    bool isValid() const;
-    void setCliente(Cliente* cliente);
-    void setMecanico(Mecanicos* mecanico);
-    string getMecanico() const;;
-    void setNumero(int numero);
-    OrdemServico& operator=(const OrdemServico& other);
-    friend ostream& operator<<(ostream& os, const OrdemServico& ordem);
+    void fechar();
+    void adicionarServico(const std::string& descricao, double preco);
+    void adicionarPeca(const std::string& descricao, double preco);
+
+    friend class Vendedor;
+    friend class Mecanico;
 };
 
 #endif

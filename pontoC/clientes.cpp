@@ -1,66 +1,16 @@
-#include <iostream>
 #include "cliente.hpp"
-#include "ordem_servico.hpp"
-#include <vector>
-using namespace std;
-Cliente::Cliente() : ordemDeServiçoAprovada(false) {
-}
-Cliente::Cliente(string nome, string cpf, string endereco, string telefone, Veiculo veiculo) {
-    this->nome = nome;
-    this->cpf = cpf;
-    this->endereco = endereco;
-    this->telefone = telefone;
-    this->veiculo = veiculo;
-}
+#include "veiculo.hpp"
 
-string Cliente::getNome() const {
+Cliente::Cliente(const std::string& nome) : nome(nome) {}
+
+std::string Cliente::getNome() const {
     return nome;
 }
 
-string Cliente::getCpf() const {
-    return cpf;
+void Cliente::adicionarVeiculo(Veiculo* veiculo) {
+    veiculos.push_back(veiculo);
 }
 
-string Cliente::getEndereco() const {
-    return endereco;
-}
-
-string Cliente::getTelefone() const {
-    return telefone;
-}
-
-void Cliente::setNome(string nome) {
-    this->nome = nome;
-}
-
-void Cliente::setCpf(string cpf) {
-    this->cpf = cpf;
-}
-
-void Cliente::setEndereco(string endereco) {
-    this->endereco = endereco;
-}
-
-void Cliente::setTelefone(string telefone) {
-    this->telefone = telefone;
-}
-
-void Cliente::setVeiculo(Veiculo veiculo) {
-    this->veiculo = veiculo;
-}
-
-Veiculo Cliente::getVeiculo() const {
-    return veiculo;
-}
-
-bool Cliente::getAprovacao() const{
-    return ordemDeServiçoAprovada;
-}
-
-void Cliente::setAprovacao(bool ordemDeServicoAprovacao) {
-    this->ordemDeServiçoAprovada = ordemDeServicoAprovacao;
-}
-
-void Cliente::adicionarOrdemServico(const OrdemServico& ordem) {
-    ordensServico.push_back(ordem); // Adiciona a ordem de serviço ao vetor de ordens do cliente
+const std::vector<Veiculo*>& Cliente::getVeiculos() const {
+    return veiculos;
 }

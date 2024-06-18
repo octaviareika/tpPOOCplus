@@ -1,36 +1,21 @@
-#ifndef MECANICOS_HPP
-#define MECANICOS_HPP
+#ifndef MECANICO_HPP
+#define MECANICO_HPP
 
-#include <iostream>
 #include "funcionarios.hpp"
 #include "ordem_servico.hpp"
-#include "vendedor.hpp"
-#include <string>
 #include <vector>
-using namespace std;
-class Vendedor;
-class Mecanicos : public Funcionarios{
+class OrdemDeServico;
+class Mecanico : public Funcionario {
 private:
-    vector<OrdemServico> ordensDeServico;
+    std::vector<OrdemDeServico*> ordensDeServico;
 
 public:
-    // Construtores
-    Mecanicos();
-    Mecanicos(string nome, string cpf);
-
-    // Getters e Setters
-
-    string getNome() const;
-    void setNome(const string& nome);
-    string getCpf() const;
-    void setCpf(const string& cpf);
-    // Outros métodos da classe
-    void visualizarOrdensAbertas() const;
-    void cadastrarServicosExecutados(OrdemServico& ordem, Cliente* cliente, Mecanicos* mecanico, const string& servicosRealizados, double valorServicos, const string& pecasUtilizadas, double valorPecas, Vendedor* vendedor);
-    void receberOrdemDeServico(OrdemServico& ordem, Mecanicos& mecanico);
-    OrdemServico getOrdemServico(int numeroOrdem, Mecanicos& mecanico);
-    
-
+    Mecanico(const std::string& nome, const std::string& senha);
+    void setNome(const std::string& novoNome);
+    void setSenha(const std::string& novaSenha);
+    void adicionarOrdem(OrdemDeServico& ordem);
+    void visualizarOrdensAprovadas();
+    void executarOrdemDeServico(int indice);
 };
 
 #endif
