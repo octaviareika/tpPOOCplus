@@ -22,12 +22,11 @@ void Vendedor::visualizarOrdensPendentes() {
             std::cout << i + 1 << ". ";
             ordensDeServico[i].imprimir();
         }
-
     }
 }
 
 void Vendedor::marcarOrdemComoAprovada(int indice, Mecanico& mecanico) {
-    if (size_t (indice) > 0 && size_t(indice) <= ordensDeServico.size()) {
+    if (indice > 0 && static_cast<size_t>(indice) <= ordensDeServico.size()) {
         ordensDeServico[indice - 1].aprovar();
         mecanico.adicionarOrdem(ordensDeServico[indice - 1]);
     } else {
@@ -45,7 +44,7 @@ void Vendedor::visualizarOrdensExecutadas() {
 }
 
 void Vendedor::fecharOrdemDeServico(int indice) {
-    if (size_t (indice) > 0 && size_t(indice) <= ordensDeServico.size()) {
+    if (indice > 0 && static_cast<size_t>(indice) <= ordensDeServico.size()) {
         ordensDeServico[indice - 1].fechar();
     } else {
         std::cout << "Ordem de serviço inválida.\n";
@@ -69,9 +68,11 @@ int Vendedor::getNumClientes() const {
 void Vendedor::setNome(const std::string& novoNome) {
     nome = novoNome;
 }
+
 void Vendedor::setSenha(const std::string& novaSenha) {
     senha = novaSenha;
 }
+
 const std::vector<OrdemDeServico>& Vendedor::getOrdensServico() const {
     return ordensDeServico;
 }

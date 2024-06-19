@@ -125,15 +125,19 @@ void menuVendedor(Vendedor* vendedor, std::vector<Mecanico>& mecanicos) {
         std::cout << "1. Cadastrar cliente e veículo\n2. Gerar ordem de serviço\n3. Visualizar ordens de serviço pendentes de aprovação\n4. Visualizar ordens de serviço executadas\n5. Fechar ordem de serviço\n6. Sair\nEscolha uma opção: ";
         std::cin >> opcao;
         switch (opcao) {
-            case 1: {
+          case 1: {
                 std::string nomeCliente;
                 std::cout << "Nome do cliente: ";
-                std::cin >> nomeCliente;
-                Cliente cliente(nomeCliente);
-                vendedor->cadastrarCliente(cliente);
+                std::cin.ignore();
+                std::getline(std::cin, nomeCliente);
+
+                // Cadastrar o cliente
+                vendedor->cadastrarCliente(nomeCliente);
+
                 std::string marca, modelo;
                 int ano;
                 double quilometragem;
+
                 std::cout << "Marca do veículo: ";
                 std::cin >> marca;
                 std::cout << "Modelo do veículo: ";
@@ -142,56 +146,75 @@ void menuVendedor(Vendedor* vendedor, std::vector<Mecanico>& mecanicos) {
                 std::cin >> ano;
                 std::cout << "Quilometragem do veículo: ";
                 std::cin >> quilometragem;
+
+                // Criar e cadastrar o veículo
                 Veiculo veiculo(marca, modelo, ano, quilometragem);
+                
+                // Obter o último cliente cadastrado
+                Cliente& cliente = vendedor->getCliente(vendedor->getNumClientes() - 1);
+
                 vendedor->cadastrarVeiculo(veiculo, cliente);
+
+                std::cout << "Veículo cadastrado com sucesso!\n";
                 break;
             }
+
            case 2: {
-            vendedor->listarClientes();
-            int clienteIndice;
-            std::cout << "Escolha um cliente: ";
-            std::cin >> clienteIndice;
-            if (clienteIndice > 0 && clienteIndice <= vendedor->getNumClientes()) {
-                Cliente* cliente = &vendedor->getCliente(clienteIndice - 1);
-                
-                // Listar mecânicos disponíveis
-                for (size_t i = 0; i < mecanicos.size(); ++i) {
-                    std::cout << i + 1 << ". " << mecanicos[i].getNome() << std::endl;
-                }
-                
-                int mecanicoIndice;
-                std::cout << "Escolha um mecânico: ";
-                std::cin >> mecanicoIndice;
-                if (mecanicoIndice > 0 && static_cast<size_t>(mecanicoIndice) <= mecanicos.size()) {
-                    Mecanico& mecanico = mecanicos[mecanicoIndice - 1];
-                    bool isManutencao;
-                    std::string motivo;
-                    double quilometragem;
-                    
-                    std::cout << "É manutenção? (1 para sim, 0 para não): ";
-                    std::cin >> isManutencao;
-                    std::cout << "Motivo: ";
-                    std::cin.ignore();
-                    std::getline(std::cin, motivo);
-                    std::cout << "Quilometragem: ";
-                    std::cin >> quilometragem;
+                vendedor->listarClientes();
+                int clienteIndice;
+                std::cout << "Escolha um cliente: ";
+                std::cin >> clienteIndice;
 
-                    // Gerar a ordem de serviço
-                    vendedor->gerarOrdemDeServico(cliente, mecanico, isManutencao, motivo, quilometragem);
+                if (clienteIndice > 0 && clienteIndice <= vendedor->getNumClientes()) {
+                    Cliente* cliente = &vendedor->getCliente(clienteIndice - 1);
 
-                    // Se for manutenção, marcar automaticamente como aprovada
-                    if (isManutencao) {
-                        const auto& ordensServico = vendedor->getOrdensServico();
-                        vendedor->marcarOrdemComoAprovada(ordensServico.size(), mecanico);
+                    // Verificar se o cliente possui algum veículo
+                    const std::vector<Veiculo*>& veiculos = cliente->getVeiculos();
+
+                    if (!veiculos.empty()) {
+                        Veiculo* veiculoCliente = veiculos.front(); // Acessando o único veículo do cliente
+
+                        double quilometragemVeiculo = veiculoCliente->getQuilometragem();
+
+                        // Listar mecânicos disponíveis
+                        std::cout << "Mecânicos disponíveis:\n";
+                        for (size_t i = 0; i < mecanicos.size(); ++i) {
+                            std::cout << i + 1 << ". " << mecanicos[i].getNome() << std::endl;
+                        }
+
+                        int mecanicoIndice;
+                        std::cout << "Escolha um mecânico: ";
+                        std::cin >> mecanicoIndice;
+
+                        if (mecanicoIndice > 0 && static_cast<size_t>(mecanicoIndice) <= mecanicos.size()) {
+                            Mecanico& mecanico = mecanicos[mecanicoIndice - 1];
+                            bool isManutencao;
+                            std::string motivo;
+
+                            std::cout << "É manutenção? (1 para sim, 0 para não): ";
+                            std::cin >> isManutencao;
+                            std::cout << "Motivo: ";
+                            std::cin.ignore();
+                            std::getline(std::cin, motivo);
+
+                            // Gerar a ordem de serviço
+                            vendedor->gerarOrdemDeServico(cliente, mecanico, isManutencao, motivo, quilometragemVeiculo);
+
+                            // Se for manutenção, marcar automaticamente como aprovada
+                            if (isManutencao) {
+                                const auto& ordensServico = vendedor->getOrdensServico();
+                                vendedor->marcarOrdemComoAprovada(ordensServico.size(), mecanico);
+                            }
+                        } else {
+                            std::cout << "Mecânico inválido.\n";
+                        }
+                    } else {
+                        std::cout << "Este cliente não possui veículos cadastrados.\n";
                     }
                 } else {
-                    std::cout << "Mecânico inválido.\n";
+                    std::cout << "Cliente inválido.\n";
+                }break;
                 }
-            } else {
-                std::cout << "Cliente inválido.\n";
-            }
-            break;
-        }
 
             case 3:
                 vendedor->visualizarOrdensPendentes();
