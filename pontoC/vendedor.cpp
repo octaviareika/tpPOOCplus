@@ -15,6 +15,11 @@ void Vendedor::gerarOrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool is
     OrdemDeServico ordem(cliente, mecanico, isManutencao, motivo, quilometragem);
     ordensDeServico.push_back(ordem);
 }
+Vendedor::~Vendedor() {
+    for (auto &ordemPtr : ordensDeServico) {
+        delete &ordemPtr; 
+    }
+}
 
 void Vendedor::visualizarOrdensPendentes() {
     for (size_t i = 0; i < ordensDeServico.size(); ++i) {

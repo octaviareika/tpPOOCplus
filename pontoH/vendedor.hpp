@@ -14,7 +14,7 @@ private:
 
 public:
     Vendedor(const std::string& nome, const std::string& senha);
-    
+    ~Vendedor();
     void cadastrarCliente(const Cliente& cliente);
     void cadastrarVeiculo(Veiculo& veiculo, Cliente& cliente);
     void gerarOrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool isManutencao, const std::string& motivo, double quilometragem);
