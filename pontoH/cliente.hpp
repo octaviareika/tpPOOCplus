@@ -6,7 +6,7 @@
 #include <memory> // Adicionado para usar smart pointers
 
 class Veiculo;
-
+// aa
 class Cliente {
 private:
     std::string nome;
