@@ -4,16 +4,17 @@
 #include "funcionarios.hpp"
 #include "ordem_servico.hpp"
 #include <vector>
-class OrdemDeServico;
+#include <memory>  // Para std::shared_ptr
+
 class Mecanico : public Funcionario {
 private:
-    std::vector<OrdemDeServico*> ordensDeServico;
+    std::vector<std::shared_ptr<OrdemDeServico>> ordensDeServico;
 
 public:
     Mecanico(const std::string& nome, const std::string& senha);
     void setNome(const std::string& novoNome);
     void setSenha(const std::string& novaSenha);
-    void adicionarOrdem(OrdemDeServico& ordem);
+    void adicionarOrdem(std::shared_ptr<OrdemDeServico> ordem);
     void visualizarOrdensAprovadas();
     void executarOrdemDeServico(int indice);
 };

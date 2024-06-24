@@ -3,8 +3,8 @@
 
 Mecanico::Mecanico(const std::string& nome, const std::string& senha) : Funcionario(nome, senha) {}
 
-void Mecanico::adicionarOrdem(OrdemDeServico& ordem) {
-    ordensDeServico.push_back(&ordem);
+void Mecanico::adicionarOrdem(std::shared_ptr<OrdemDeServico> ordem) {
+    ordensDeServico.push_back(ordem);
 }
 
 void Mecanico::visualizarOrdensAprovadas() {
@@ -17,7 +17,7 @@ void Mecanico::visualizarOrdensAprovadas() {
 }
 
 void Mecanico::executarOrdemDeServico(int indice) {
-    if (size_t (indice) > 0 && size_t(indice) <= ordensDeServico.size()) {
+    if (indice > 0 && static_cast<size_t>(indice) <= ordensDeServico.size()) {
         ordensDeServico[indice - 1]->executar();
     } else {
         std::cout << "Ordem de serviço inválida.\n";
@@ -25,7 +25,7 @@ void Mecanico::executarOrdemDeServico(int indice) {
 }
 
 void Mecanico::setNome(const std::string& novoNome) {
-    nome = novoNome;
+    Funcionario::setNome(novoNome);
 }
 
 void Mecanico::setSenha(const std::string& novaSenha) {

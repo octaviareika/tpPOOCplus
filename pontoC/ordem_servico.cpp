@@ -1,8 +1,10 @@
 #include "ordem_servico.hpp"
+#include "cliente.hpp"
+#include "mecanicos.hpp"
 #include <iostream>
 
-OrdemDeServico::OrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool isManutencao, const std::string& motivo, double quilometragem)
-    : cliente(cliente), mecanico(&mecanico), isManutencao(isManutencao), motivo(motivo), quilometragem(quilometragem), aprovada(false), executada(false), fechada(false) {}
+OrdemDeServico::OrdemDeServico(Cliente* cliente, Mecanico* mecanico, bool isManutencao, const std::string& motivo, double quilometragem)
+    : cliente(cliente), mecanico(mecanico), isManutencao(isManutencao), motivo(motivo), quilometragem(quilometragem), aprovada(false), executada(false), fechada(false) {}
 
 void OrdemDeServico::imprimir() const {
     std::cout << "Cliente: " << cliente->getNome() << "\nMecânico: " << mecanico->getNome() << "\nMotivo: " << motivo << "\nQuilometragem: " << quilometragem << "\nAprovada: " << (aprovada ? "Sim" : "Não") << "\nExecutada: " << (executada ? "Sim" : "Não") << "\nFechada: " << (fechada ? "Sim" : "Não") << std::endl;
@@ -29,10 +31,10 @@ void OrdemDeServico::executar() {
         do {
             std::cout << "1. Adicionar serviço\n2. Adicionar peça\n3. Concluir execução\nEscolha uma opção: ";
             std::cin >> opcao;
+            std::cin.ignore();  
             switch (opcao) {
                 case 1:
                     std::cout << "Descrição do serviço: ";
-                    std::cin.ignore();
                     std::getline(std::cin, descricao);
                     std::cout << "Preço do serviço: ";
                     std::cin >> preco;
@@ -40,7 +42,6 @@ void OrdemDeServico::executar() {
                     break;
                 case 2:
                     std::cout << "Descrição da peça: ";
-                    std::cin.ignore();
                     std::getline(std::cin, descricao);
                     std::cout << "Preço da peça: ";
                     std::cin >> preco;

@@ -1,12 +1,14 @@
 #ifndef ORDEM_SERVICO_HPP
 #define ORDEM_SERVICO_HPP
 
-#include "cliente.hpp"
-#include "mecanicos.hpp"
 #include <string>
 #include <vector>
+#include <iostream>
+#include <memory>  // Para std::shared_ptr
+
 class Cliente;
 class Mecanico;
+
 class OrdemDeServico {
 private:
     Cliente* cliente;
@@ -21,7 +23,7 @@ private:
     std::vector<std::pair<std::string, double>> pecas;
 
 public:
-    OrdemDeServico(Cliente* cliente, Mecanico& mecanico, bool isManutencao, const std::string& motivo, double quilometragem);
+    OrdemDeServico(Cliente* cliente, Mecanico* mecanico, bool isManutencao, const std::string& motivo, double quilometragem);
     void imprimir() const;
     void aprovar();
     void executar();
