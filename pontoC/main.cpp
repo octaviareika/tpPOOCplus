@@ -1,80 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "vendedor.hpp"
-#include "mecanicos.hpp"
-#include "ordem_servico.hpp"
+#include "administrador.hpp"
 #include "cliente.hpp"
 #include "veiculo.hpp"
-#include "funcionarios.hpp"
-
-// Classe para o administrador
-class Administrador : public Funcionario {
-public:
-    Administrador(const std::string& nome, const std::string& senha) : Funcionario(nome, senha) {}
-    void editarDados(std::vector<Vendedor>& vendedores, std::vector<Mecanico>& mecanicos);
-};
-
-void Administrador::editarDados(std::vector<Vendedor>& vendedores, std::vector<Mecanico>& mecanicos) {
-    int opcao;
-    do {
-        std::cout << "1. Editar Vendedores\n2. Editar Mecânicos\n3. Sair\nEscolha uma opção: ";
-        std::cin >> opcao;
-
-        switch (opcao) {
-            case 1: {
-                // Editar Vendedores
-                for (size_t i = 0; i < vendedores.size(); ++i) {
-                    std::cout << i + 1 << ". " << vendedores[i].getNome() << std::endl;
-                }
-                std::cout << "Escolha um vendedor para editar: ";
-                int indice;
-                std::cin >> indice;
-                if (indice > 0 && static_cast<size_t>(indice) <= vendedores.size()) {
-                    std::string novoNome, novaSenha;
-                    std::cout << "Novo nome: ";
-                    std::cin.ignore();
-                    std::getline(std::cin, novoNome);
-                    std::cout << "Nova senha: ";
-                    std::getline(std::cin, novaSenha);
-                    vendedores[indice - 1].setNome(novoNome);
-                    vendedores[indice - 1].setSenha(novaSenha);
-                } else {
-                    std::cout << "Vendedor inválido.\n";
-                }
-                break;
-            }
-            case 2: {
-                // Editar Mecânicos
-                for (size_t i = 0; i < mecanicos.size(); ++i) {
-                    std::cout << i + 1 << ". " << mecanicos[i].getNome() << std::endl;
-                }
-                std::cout << "Escolha um mecânico para editar: ";
-                int indice;
-                std::cin >> indice;
-                if (indice > 0 && static_cast<size_t>(indice) <= mecanicos.size()) {
-                    std::string novoNome, novaSenha;
-                    std::cout << "Novo nome: ";
-                    std::cin.ignore();
-                    std::getline(std::cin, novoNome);
-                    std::cout << "Nova senha: ";
-                    std::getline(std::cin, novaSenha);
-                    mecanicos[indice - 1].setNome(novoNome);
-                    mecanicos[indice - 1].setSenha(novaSenha);
-                } else {
-                    std::cout << "Mecânico inválido.\n";
-                }
-                break;
-            }
-            case 3:
-                std::cout << "Saindo...\n";
-                break;
-            default:
-                std::cout << "Opção inválida.\n";
-        }
-    } while (opcao != 3);
-}
-
+#include "ordem_servico.hpp"
+#include "vendedor.hpp"
+#include "mecanicos.hpp"
 
 // Funções de login
 Funcionario* login(std::vector<Administrador>& administradores, std::vector<Vendedor>& vendedores, std::vector<Mecanico>& mecanicos) {
@@ -103,8 +35,6 @@ Funcionario* login(std::vector<Administrador>& administradores, std::vector<Vend
     std::cout << "Credenciais inválidas.\n";
     return nullptr;
 }
-
-
 
 void menuVendedor(Vendedor* vendedor, std::vector<Mecanico>& mecanicos) {
     int opcao;
@@ -279,9 +209,6 @@ int main() {
     std::vector<Administrador> administradores = {Administrador("Admin", "Admin")};
     std::vector<Vendedor> vendedores = {Vendedor("Vendedor", "Vendedor"), Vendedor("Vendedor2", "Vendedor2"), Vendedor("Vendedor3", "Vendedor3")};
     std::vector<Mecanico> mecanicos = {Mecanico("Mecanico", "Mecanico"), Mecanico("Mecanico2", "Mecanico2"), Mecanico("Mecanico3", "Mecanico3")};
-
-    // Executar o menu de login
     menuLogin(administradores, vendedores, mecanicos);
-
     return 0;
 }
