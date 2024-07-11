@@ -39,7 +39,7 @@ Funcionario* login(std::vector<Administrador>& administradores, std::vector<Vend
 void menuVendedor(Vendedor* vendedor, std::vector<Mecanico>& mecanicos) {
     int opcao;
     do {
-        std::cout << "1. Cadastrar cliente e veículo\n2. Gerar ordem de serviço\n3. Visualizar ordens de serviço pendentes de aprovação\n4. Visualizar ordens de serviço executadas\n5. Fechar ordem de serviço\n6. Sair\nEscolha uma opção: ";
+        std::cout << "1. Cadastrar cliente e veículo\n2. Gerar ordem de serviço\n3. Visualizar ordens de serviço pendentes de aprovação\n4. Visualizar ordens de serviço executadas\n5. Fechar ordem de serviço\n6. Vizualizar ordens fechadas\n7. Sair\nEscolha uma opção: ";
         std::cin >> opcao;
         switch (opcao) {
             case 1: {
@@ -142,12 +142,15 @@ void menuVendedor(Vendedor* vendedor, std::vector<Mecanico>& mecanicos) {
                 vendedor->fecharOrdemDeServico(numeroOrdem);
                 break;
             case 6:
+                vendedor->vizualizarOrdensFechadas();
+                break;
+            case 7:
                 std::cout << "Saindo...\n";
                 break;
             default:
                 std::cout << "Opção inválida.\n";
         }
-    } while (opcao != 6);
+    } while (opcao != 7);
 }
 
 void menuMecanico(Mecanico* mecanico) {

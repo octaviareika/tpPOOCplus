@@ -80,3 +80,11 @@ void Vendedor::setSenha(const std::string& novaSenha) {
 const std::vector<std::shared_ptr<OrdemDeServico>>& Vendedor::getOrdensServico() const {
     return ordensDeServico;
 }
+void Vendedor::vizualizarOrdensFechadas() {
+    for (size_t i = 0; i < ordensDeServico.size(); ++i) {
+        if (ordensDeServico[i]->fechada) {
+            std::cout << i + 1 << ". ";
+            ordensDeServico[i]->imprimir();
+        }
+    }
+}

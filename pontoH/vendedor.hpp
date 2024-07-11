@@ -27,6 +27,7 @@ public:
     void setNome(const std::string& novoNome);
     void setSenha(const std::string& novaSenha);
     Cliente& getCliente(int indice);
+    void vizualizarOrdensFechadas();
     int getNumClientes() const;
     const std::vector<std::shared_ptr<OrdemDeServico>>& getOrdensServico() const;
 };
