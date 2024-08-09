@@ -1,36 +1,27 @@
-# Makefile para compilar os arquivos C++ em pontoC
-
-# Comandos e opções de compilação
+# Variáveis
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall
-INCLUDES = -IpontoH
-
-# Diretórios dos arquivos
+CXXFLAGS = -Wall -Wextra -std=c++11
 SRCDIR = pontoC
-HDRDIR = pontoH
-BUILDDIR = build
 TARGET = programa
 
-# Listar todos os arquivos .cpp
-SRCS := $(wildcard $(SRCDIR)/*.cpp)
-OBJS := $(patsubst $(SRCDIR)/%.cpp,$(BUILDDIR)/%.o,$(SRCS))
+# Coleta todos os arquivos .cpp no diretório pontoC
+SOURCES = $(wildcard $(SRCDIR)/*.cpp)
 
-# Nome dos headers
-DEPS := $(wildcard $(HDRDIR)/*.hpp)
+# Substitui a extensão .cpp por .o para criar uma lista de arquivos-objeto
+OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=%.o)
 
-# Comando padrão (gerar o executável)
+# Regras principais
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ $^
+# Regra para compilar o programa
+$(TARGET): $(OBJECTS)
+	$(CXX) $(OBJECTS) -o $(TARGET)
 
-# Compilar cada arquivo .cpp em um arquivo .o
-$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
-	@mkdir -p $(BUILDDIR)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
+# Regra para compilar cada arquivo .cpp em um arquivo .o
+%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Limpar arquivos temporários e o executável
-clean:
-	rm -rf $(BUILDDIR) $(TARGET)
 
-.PHONY: all clean
+# Limpeza completa, incluindo binários
+clean-all: clean
+	rm -f $(TARGET)
